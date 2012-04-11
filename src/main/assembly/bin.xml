@@ -10,10 +10,6 @@
       <directory>src/main/release/conf</directory>
       <outputDirectory>${project.artifactId}-${project.version}/conf</outputDirectory>
     </fileSet>
-    <fileSet>
-      <directory>src/main/release/udk_presets</directory>
-      <outputDirectory>${project.artifactId}-${project.version}/udk_presets</outputDirectory>
-    </fileSet>
 <!-- No additional presets !
     <fileSet>
       <directory>src/main/release/presets</directory>

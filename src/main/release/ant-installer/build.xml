@@ -23,13 +23,7 @@
         <replace file="${start-script}" token="@SERVER_PORT@" value="${localServerPort}"/>
 	</target>
   
-  <target name="udkPreset" description="Set spring config.">
-    <echo>Verwende UDK-Konfiguration: ${springConfig}</echo>
-<!--
-    <echo>Copy ${installDir}/udk_presets/${springConfig} to ${installDir}/webapp/WEB-INF/spring.xml</echo>
--->
-    <copy file="${installDir}/udk_presets/${springConfig}" toFile="${installDir}/webapp/WEB-INF/spring.xml" overwrite="true"/>
-  </target>
+
     
 	<target name="startComponent">
 		<echo>
