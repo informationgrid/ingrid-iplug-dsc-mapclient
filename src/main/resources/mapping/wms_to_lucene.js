@@ -36,7 +36,7 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("t01_object.obj_class",objectClass); //TODO stimmt das?!?
 	IDX.add("title",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_TITLE,xmlDoc));
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc));
-	
+	IDX.add("t011_obj_serv.type","wms");
 	IDX.add("t011_obj_serv_op_connpoint.connect_point",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF,xmlDoc));
 	IDX.add("summary",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_ABSTRACT,xmlDoc));
 	
@@ -66,6 +66,7 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_VERSION,xmlDoc));
 	
 	IDX.add("t011_obj_serv_op_connpoint.connect_point",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF,xmlDoc));
+	IDX.add("t011_obj_serv.type","wms");
 	IDX.add("summary",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_ABSTRACT,xmlDoc));
 	
 	IDX.add("t02_address.lastname",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_CONTACT_PERSON,xmlDoc));
