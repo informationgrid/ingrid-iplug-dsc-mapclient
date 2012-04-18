@@ -115,6 +115,7 @@ import de.ingrid.utils.PlugDescription;
 		nl = readXmlFile(this.xmlFilePath, idTag);
 
 		for (int i = 0; i < nl.getLength(); i++) {
+			if(!recordIds.contains(nl.item(i).getTextContent()))
 			recordIds.add(nl.item(i).getTextContent());
 		}
 
