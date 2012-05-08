@@ -53,6 +53,8 @@ public class CapabilitiesUtils {
 	public final static String XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXX = "/WMT_MS_Capabilities/Capability/Layer/LatLonBoundingBox[1]/@maxx";
 	public final static String XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXY = "/WMT_MS_Capabilities/Capability/Layer/LatLonBoundingBox[1]/@maxy";
 	public final static String XPATH_EXP_WMS_1_1_1_KEYWORDS = "/WMT_MS_Capabilities/Service[1]/KeywordList/Keyword";
+	public final static String XPATH_EXP_WMS_1_1_1_LAYERTITLES = "//Layer/Title";
+	
 
 	public final static String XPATH_EXP_WMS_1_3_0_TITLE = "/WMS_Capabilities/Service[1]/Title[1]";
 	public final static String XPATH_EXP_WMS_1_3_0_ABSTRACT = "/WMS_Capabilities/Service[1]/Abstract[1]";
@@ -75,6 +77,7 @@ public class CapabilitiesUtils {
 	public final static String XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXX = "/WMS_Capabilities/Capability/Layer/EX_GeographicBoundingBox[1]/westBoundLongitude[1]";
 	public final static String XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXY = "/WMS_Capabilities/Capability/Layer/EX_GeographicBoundingBox[1]/northBoundLatitude[1]";
 	public final static String XPATH_EXP_WMS_1_3_0_KEYWORDS = "/WMS_Capabilities/Service[1]/KeywordList/Keyword";
+	public final static String XPATH_EXP_WMS_1_3_0_LAYERTITLES = "//Layer/Title";
 
 	private String urlStr;
 	private XPath xpath = null;

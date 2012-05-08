@@ -60,6 +60,11 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 		if(entries[i] != '')
 		IDX.add("searchterm_value", entries[i]);
 	}
+	var layerTitles = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES, xmlDoc);
+	for(var i = 0; i < layerTitles.length; i++){
+		if(layerTitles[i] != '')
+		IDX.add("layer_titles", layerTitles[i]);
+	}
 }else if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_VERSION,xmlDoc) == "1.3.0"){
 	IDX.add("t01_object.obj_class",objectClass);
 	IDX.add("title",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_TITLE,xmlDoc));

@@ -33,7 +33,7 @@ var objectClass = 3;
 IDX.add("id", CAP.getUrlStr());
 
 if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
-	IDX.add("t01_object.obj_class",objectClass); 
+	IDX.add("t01_object.obj_class",objectClass); //TODO stimmt das?!?
 	IDX.add("title",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_TITLE,xmlDoc));
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc));
 	IDX.add("t011_obj_serv.type","wms");
@@ -60,6 +60,11 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 		if(entries[i] != '')
 		IDX.add("searchterm_value", entries[i]);
 	}
+	var layerTitles = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES, xmlDoc);
+	for(var i = 0; i < layerTitles.length; i++){
+		if(layerTitles[i] != '')
+		IDX.add("layer_titles", layerTitles[i]);
+	}
 }else if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_VERSION,xmlDoc) == "1.3.0"){
 	IDX.add("t01_object.obj_class",objectClass);
 	IDX.add("title",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_TITLE,xmlDoc));
@@ -84,6 +89,15 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("spatial_ref_value.x2",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXX,xmlDoc));
 	IDX.add("spatial_ref_value.y2",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXY,xmlDoc));
 	var entries = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_3_0_KEYWORDS, xmlDoc);
+	for(var i = 0; i < entries.length; i++){
+		if(entries[i] != '')
+		IDX.add("searchterm_value", entries[i]);
+	}
+	var layerTitles = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES, xmlDoc);
+	for(var i = 0; i < layerTitles.length; i++){
+		if(layerTitles[i] != '')
+		IDX.add("layer_titles", layerTitles[i]);
+	}
 }else{
 	IDX.add("t01_object.obj_class",objectClass); //TODO stimmt das?!?
 	IDX.add("serviceUnavailable","serviceUnavailable"); //TODO stimmt das?!?
