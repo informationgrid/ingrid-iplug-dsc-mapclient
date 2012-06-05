@@ -4,8 +4,6 @@
  *
  * The following global variable are passed from the application:
  *
- * @param sourceRecord A SourceRecord instance, that defines the input
- * @param luceneDoc A lucene Document instance, that defines the output
  * @param log A Log instance
  * @param SQL SQL helper class encapsulating utility methods
  * @param IDX Lucene index helper class encapsulating utility methods for output
@@ -23,11 +21,6 @@ if (log.isDebugEnabled()) {
 	log.debug("Mapping source record to lucene document: " + sourceRecord.toString());
 }
 
-//we dont us a DatabaseSourcerecord here, for obvious reasons
-if (!(sourceRecord instanceof SourceRecord)) {
-    throw new IllegalArgumentException("Record is no DatabaseRecord!");
-}
-
 var xpath = CAP.getXpath();
 var objectClass = 3;
 IDX.add("id", CAP.getUrlStr());
@@ -38,6 +31,7 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc));
 	IDX.add("t011_obj_serv.type","wms");
 	IDX.add("t011_obj_serv_op_connpoint.connect_point",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF,xmlDoc));
+	IDX.add("t01_object.obj_id",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF,xmlDoc));
 	IDX.add("summary",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_ABSTRACT,xmlDoc));
 	
 	IDX.add("t02_address.lastname",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_CONTACT_PERSON,xmlDoc));
@@ -71,6 +65,7 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_VERSION,xmlDoc));
 	
 	IDX.add("t011_obj_serv_op_connpoint.connect_point",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF,xmlDoc));
+	IDX.add("t01_object.obj_id",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF,xmlDoc));
 	IDX.add("t011_obj_serv.type","wms");
 	IDX.add("summary",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_ABSTRACT,xmlDoc));
 	

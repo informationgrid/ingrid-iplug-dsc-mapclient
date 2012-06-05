@@ -20,10 +20,8 @@ import org.springframework.core.io.Resource;
 
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.utils.CapabilitiesUtils;
-import de.ingrid.iplug.dsc.utils.DOMUtils;
 import de.ingrid.iplug.dsc.utils.IndexUtils;
 import de.ingrid.utils.xml.IDFNamespaceContext;
-import de.ingrid.utils.xml.XMLUtils;
 import de.ingrid.utils.xpath.XPathUtils;
 
 /**
@@ -94,19 +92,13 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             org.w3c.dom.Document xmlDoc = capabilitiesUtils.requestCaps(); 
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             
-            DOMUtils domUtils = new DOMUtils(w3cDoc, xPathUtils);
-            XMLUtils xmlUtils = new XMLUtils();
             Bindings bindings = engine.createBindings();
-            bindings.put("sourceRecord", record);
-            bindings.put("luceneDoc", doc);
             bindings.put("xmlDoc", xmlDoc);
             bindings.put("log", log);
             bindings.put("CAP", capabilitiesUtils);
             bindings.put("IDX", idxUtils);
+            // TODO: use XPATH rather than CAP for queries, refactor CapabilitiesUtils: remove XPATH functionality
             bindings.put("XPATH", xPathUtils);
-            bindings.put("DOM", domUtils);
-            bindings.put("w3cDoc", w3cDoc);
-            bindings.put("XML", xmlUtils);            
 
             if (compiledScript != null) {
                 compiledScript.eval(bindings);

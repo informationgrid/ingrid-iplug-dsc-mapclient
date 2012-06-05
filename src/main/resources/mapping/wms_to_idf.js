@@ -70,6 +70,12 @@
 	// and schema references
 	mdMetadata.addAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 	mdMetadata.addAttribute("xsi:schemaLocation", DOM.getNS("gmd")+" http://schemas.opengis.net/csw/2.0.2/profiles/apiso/1.0.0/apiso.xsd");
+
+    var fileIdentifier = luceneDoc.get("t011_obj_serv_op_connpoint.connect_point");
+    if (hasValue(fileIdentifier)) {
+    	mdMetadata.addElement("gmd:fileIdentifier/gco:CharacterString").addText(fileIdentifier);
+    }
+	
 	
 //	mdMetadata.addElement("gmd:language/gmd:LanguageCode")
 //			  .addAttribute("codeList","http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#LanguageCode")
