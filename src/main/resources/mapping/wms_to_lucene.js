@@ -18,7 +18,8 @@ importPackage(Packages.de.ingrid.utils.xml);
 
 
 if (log.isDebugEnabled()) {
-	log.debug("Mapping source record to lucene document: " + sourceRecord.toString());
+	// Throw exception by index
+	//log.debug("Mapping source record to lucene document: " + sourceRecord.toString());
 }
 
 var xpath = CAP.getXpath();
