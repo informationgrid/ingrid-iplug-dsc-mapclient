@@ -88,8 +88,18 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
 
             CapabilitiesUtils capabilitiesUtils = new CapabilitiesUtils();
             capabilitiesUtils.setUrlStr((String)record.get(SourceRecord.ID));
+
+            if (log.isDebugEnabled()) {
+				log.debug("Requesting " + capabilitiesUtils.getUrlStr());
+			}
+            org.w3c.dom.Document xmlDoc = capabilitiesUtils.requestCaps();
+            // we check for null and return -> NO Exception, so oncoming URLs are processed
+            if (xmlDoc == null) {
+                log.warn("!!! Problems requesting " + capabilitiesUtils.getUrlStr());
+                return;
+            }
+
             IndexUtils idxUtils = new IndexUtils(doc);
-            org.w3c.dom.Document xmlDoc = capabilitiesUtils.requestCaps(); 
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             
             Bindings bindings = engine.createBindings();

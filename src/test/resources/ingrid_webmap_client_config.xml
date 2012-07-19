@@ -87,6 +87,10 @@
               <capabilitiesUrl>http://rips-uis.lubw.baden-wuerttemberg.de/wms/cgi/badekarte_wms?REQUEST=GetCapabilities&amp;SERVICE=WMS</capabilitiesUrl>
             </service>
             <service>
+              <name>!!! WRONG URL !!! In Between !!!</name>
+              <capabilitiesUrl>http://nibisERROR.lbeg.de/net3/public/ogc.ashx?PkgId=39&amp;Version=1.1.1&amp;Service=WMS&amp;Request=GetCapabilities</capabilitiesUrl>
+            </service>
+            <service>
               <name>CrossCompliance Erosionsgefährdung Niedersachsen</name>
               <capabilitiesUrl>http://nibis.lbeg.de/net3/public/ogc.ashx?PkgId=39&amp;Version=1.1.1&amp;Service=WMS&amp;Request=GetCapabilities</capabilitiesUrl>
             </service>

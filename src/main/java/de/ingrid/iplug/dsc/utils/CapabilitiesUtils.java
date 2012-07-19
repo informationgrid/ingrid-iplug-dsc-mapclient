@@ -109,27 +109,27 @@ public class CapabilitiesUtils {
 			log.error("Url timed out: " + urlStr);
 			log.error("Error creating record ids.", e);
 			System.out.println("Url timed out: " + urlStr);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		} catch (MalformedURLException e) {
 			log.error("Error creating record ids.", e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
 			log.error("Error creating record ids.", e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		} catch (ParserConfigurationException e) {
 			log.error("Error creating record ids.", e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		} catch (SAXException e) {
 			log.error("Error creating record ids.", e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			log.error("Error creating record ids.", e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			return null;
 		}
 
