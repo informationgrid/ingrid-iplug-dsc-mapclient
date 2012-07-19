@@ -4,10 +4,11 @@
  *
  * The following global variable are passed from the application:
  *
+ * @param xmlDoc A org.w3c.dom.Document instance, that defines the capabilities input
  * @param log A Log instance
- * @param SQL SQL helper class encapsulating utility methods
- * @param IDX Lucene index helper class encapsulating utility methods for output
- * @param TRANSF Helper class for transforming, processing values/fields.
+ * @param CAP CapabilitiesUtils helper class encapsulating utility methods
+ * @param IDX IndexUtils helper class encapsulatingutility methods
+ * @param XPATH XPathUtils helper class encapsulating utility methods
  */
 importPackage(Packages.org.apache.lucene.document);
 importPackage(Packages.de.ingrid.iplug.dsc.om);
@@ -16,10 +17,12 @@ importPackage(Packages.de.ingrid.iplug.dsc.index.mapper);
 importPackage(Packages.org.w3c.dom);
 importPackage(Packages.de.ingrid.utils.xml);
 
-
 if (log.isDebugEnabled()) {
-	// Throw exception by index
-	//log.debug("Mapping source record to lucene document: " + sourceRecord.toString());
+    log.debug("Mapping xmlDoc to lucene document: " + xmlDoc.toString());
+}
+
+if (!(xmlDoc instanceof org.w3c.dom.Document)) {
+    throw new IllegalArgumentException("xmlDoc is no org.w3c.dom.Document!");
 }
 
 var xpath = CAP.getXpath();
@@ -85,6 +88,15 @@ if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
 	IDX.add("spatial_ref_value.x2",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXX,xmlDoc));
 	IDX.add("spatial_ref_value.y2",CAP.evaluate(CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXY,xmlDoc));
 	var entries = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_3_0_KEYWORDS, xmlDoc);
+	for(var i = 0; i < entries.length; i++){
+		if(entries[i] != '')
+		IDX.add("searchterm_value", entries[i]);
+	}
+	var layerTitles = CAP.evaluateList(CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES, xmlDoc);
+	for(var i = 0; i < layerTitles.length; i++){
+		if(layerTitles[i] != '')
+		IDX.add("layer_titles", layerTitles[i]);
+	}
 }else{
 	IDX.add("t01_object.obj_class",objectClass); //TODO stimmt das?!?
 	IDX.add("serviceUnavailable","serviceUnavailable"); //TODO stimmt das?!?

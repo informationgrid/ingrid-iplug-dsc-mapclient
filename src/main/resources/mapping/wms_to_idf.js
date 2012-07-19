@@ -4,12 +4,15 @@
 	 *
 	 * The following global variable are passed from the application:
 	 *
-	 * @param sourceRecord A SourceRecord instance, that defines the input
-	 * @param idfDoc A IDF Document (XML-DOM) instance, that defines the output
-	 * @param log A Log instance
-	 * @param XPATH xpath helper class encapsulating utility methods
-	 * @param TRANSF Helper class for transforming, processing values
-	 * @param DOM Helper class encapsulating processing DOM
+     * @param sourceRecord A SourceRecord instance, that defines the input
+     * @param luceneDoc A org.apache.lucene.document.Document instance, that defines the input
+     * @param w3cDoc A org.w3c.dom.Document instance, that defines the output
+     * @param log A Log instance
+     * @param CAP CapabilitiesUtils helper class encapsulating utility methods
+     * @param XML XMLUtils helper class encapsulating utility methods
+     * @param IDX IndexUtils helper class encapsulatingutility methods
+     * @param XPATH XPathUtils helper class encapsulating utility methods
+	 * @param DOM DOMUtils helper class encapsulating processing DOM
 	 */
 	importPackage(Packages.org.w3c.dom);
 	importPackage(Packages.de.ingrid.iplug.dsc.om);
@@ -17,16 +20,15 @@
 	importPackage(Packages.de.ingrid.iplug.dsc.om);
 	importPackage(Packages.de.ingrid.geo.utils.transformation);
 	importPackage(Packages.de.ingrid.utils.xml);
+
 	if (log.isDebugEnabled()) {
-		log.debug("Mapping source record to lucene document: "
-				+ sourceRecord.toString());
+		log.debug("Mapping source record to idf document: " + sourceRecord.toString());
 	}
 	
 	//we dont use a DatabaseSourcerecord here, for obvious reasons
 	if (!(sourceRecord instanceof SourceRecord)) {
 		throw new IllegalArgumentException("Record is no SourceRecord!");
 	}
-	
 	
 	// ---------- Initialize ----------
 	//this used to be done by the ScriptedIdfMapper, but we now do it via js

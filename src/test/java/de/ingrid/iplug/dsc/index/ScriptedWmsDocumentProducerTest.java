@@ -9,7 +9,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.util.Version;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 
 import de.ingrid.iplug.dsc.index.mapper.IRecordMapper;
 import de.ingrid.iplug.dsc.index.mapper.ScriptedIdfDocumentMapper;
@@ -33,11 +33,11 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         p.configure(pd);
         
         ScriptedWmsDocumentMapper m = new ScriptedWmsDocumentMapper();
-        m.setMappingScript(new ClassPathResource("wms_to_lucene.js"));
+        m.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_lucene.js"));
         m.setCompile(false);
         ScriptedIdfDocumentMapper mapper = new ScriptedIdfDocumentMapper();
-        mapper.setMappingScript(new ClassPathResource("wms_to_idf.js"));
-        m.setCompile(false);
+        mapper.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_idf.js"));
+        mapper.setCompile(false);
 
         List<IRecordMapper> mList = new ArrayList<IRecordMapper>();
         mList.add(m);
@@ -51,7 +51,7 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         if (dp.hasNext()) {
             while (dp.hasNext()) {
                 Document doc = dp.next();
-                assertNotNull(doc);                
+                assertNotNull(doc);
                 writer.addDocument(doc);
             }
         } else {
