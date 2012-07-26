@@ -11,7 +11,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
          <context:exclude-filter type="regex" expression="de\.ingrid\.iplug\.dsc\.webapp\.controller\.DatabaseParameterController"/>
     </context:component-scan>
     
-    <bean id="dscDocumentProducer" class="de.ingrid.iplug.dsc.index.DscDocumentProducer">
+    <bean id="dscDocumentProducer" class="de.ingrid.iplug.dsc.index.producer.DscWmsDocumentProducer">
         <property name="recordSetProducer" ref="recordSetProducer" />
         <property name="recordMapperList">
             <list>

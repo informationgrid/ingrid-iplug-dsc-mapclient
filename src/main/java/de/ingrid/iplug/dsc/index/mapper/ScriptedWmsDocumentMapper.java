@@ -61,8 +61,7 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
 	}
 
 	@Override
-    public void map(SourceRecord record, Document doc) throws Exception {
-    	org.w3c.dom.Document w3cDoc = docBuilder.newDocument();
+    public Document map(SourceRecord record, Document doc) throws Exception {
         if (mappingScript == null) {
             log.error("Mapping script is not set!");
             throw new IllegalArgumentException("Mapping script is not set!");
@@ -95,8 +94,8 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             org.w3c.dom.Document xmlDoc = capabilitiesUtils.requestCaps();
             // we check for null and return -> NO Exception, so oncoming URLs are processed
             if (xmlDoc == null) {
-                log.warn("!!! Problems requesting " + capabilitiesUtils.getUrlStr());
-                return;
+                log.warn("!!! Problems requesting " + capabilitiesUtils.getUrlStr() + " !!! We return null Document so will not be indexed !");
+                return null;
             }
 
             IndexUtils idxUtils = new IndexUtils(doc);
@@ -116,6 +115,8 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
                 engine.eval(new InputStreamReader(mappingScript
                         .getInputStream()), bindings);
             }
+            
+            return doc;
 
         } catch (Exception e) {
             log.error("Error mapping source record to lucene document.", e);

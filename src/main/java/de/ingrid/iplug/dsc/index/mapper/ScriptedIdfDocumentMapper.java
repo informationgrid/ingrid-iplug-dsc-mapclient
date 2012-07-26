@@ -64,17 +64,22 @@ import de.ingrid.utils.xpath.XPathUtils;
     /**
      * map in this case means, map the sourcerecord to 
      * an idf document and store it as xml-string
-     * 
-     * 
      */
-    public void map(SourceRecord record, org.apache.lucene.document.Document luceneDoc) throws Exception {
+    public org.apache.lucene.document.Document map(SourceRecord record, org.apache.lucene.document.Document luceneDoc) throws Exception {
 
-        org.w3c.dom.Document w3cDoc = docBuilder.newDocument();
-    	if(luceneDoc.get("id") != null && luceneDoc.get("serviceUnavailable") == null){
+    	if (luceneDoc.get("id") == null || luceneDoc.get("serviceUnavailable") != null) {
+            log.warn("!!! No 'id' set in index document (id=" + luceneDoc.get("id") +
+            		") or 'serviceUnavailable' set (serviceUnavailable=" + luceneDoc.get("serviceUnavailable") +
+            		") !!! No IDF possible, we return null Document so will not be indexed !");
+        	return null;
+    	}
+
         if (mappingScript == null) {
             log.error("Mapping script is not set!");
             throw new IllegalArgumentException("Mapping script is not set!");
         }
+
+        org.w3c.dom.Document w3cDoc = docBuilder.newDocument();
         try {
             if (engine == null) {
                 String scriptName = mappingScript.getFilename();
@@ -122,8 +127,8 @@ import de.ingrid.utils.xpath.XPathUtils;
             e.printStackTrace();
             throw e;
         }
-    	}
-        
+
+    	return luceneDoc;
     }
 
     public Resource getMappingScript() {

@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>de.ingrid</groupId>
 		<artifactId>ingrid-releases-pom</artifactId>
-		<version>3.2.0</version>
+		<version>3.3.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ingrid</groupId>
 	<artifactId>ingrid-iplug-dsc-mapclient</artifactId>
 	<version>3.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>ingrid-iplug-dsc-mapclient:war</name>
+	<name>ingrid-iplug-dsc-mapclient</name>
 	<scm>
 		<connection>
     scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-iplug-dsc-mapclient/trunk</connection>
@@ -147,6 +147,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<!-- version needed, older plugins have wrong classpath ! own classes should be loaded before the same ones in .jar ! -->
+                <version>2.12</version>
 				<configuration>
 					<includes>
 						<include>**/*Test.java</include>
