@@ -28,8 +28,8 @@ if (!(xmlDoc instanceof org.w3c.dom.Document)) {
 var xpath = CAP.getXpath();
 var objectClass = 3;
 IDX.add("id", CAP.getUrlStr());
-
-if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" ){
+// we check for version 1.1.0 just as version 1.1.1. since they basically have the same structure
+if(CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.1" || CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc) == "1.1.0"){
 	IDX.add("t01_object.obj_class",objectClass); //TODO stimmt das?!?
 	IDX.add("title",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_TITLE,xmlDoc));
 	IDX.add("t011_obj_serv_version.version",CAP.evaluate(CAP.XPATH_EXP_WMS_1_1_1_VERSION,xmlDoc));
