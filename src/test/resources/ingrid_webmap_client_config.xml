@@ -94,6 +94,10 @@
               <name>CrossCompliance Erosionsgefährdung Niedersachsen</name>
               <capabilitiesUrl>http://nibis.lbeg.de/net3/public/ogc.ashx?PkgId=39&amp;Version=1.1.1&amp;Service=WMS&amp;Request=GetCapabilities</capabilitiesUrl>
             </service>
+               <service>
+              <name>some service vs 1.1.0</name>
+              <capabilitiesUrl>http://harrison.its-technidata.de/ingrid-webmap-client/wms/ly3o9s.xml?REQUEST=GetCapabilities</capabilitiesUrl>
+            </service> 
           </services>
         </serviceCategory>
       </serviceCategories>

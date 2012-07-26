@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="3.3.0-SNAPSHOT" date="??-??-??" description="???">
+      <action type="fix" dev="wemove" issue="INGRID32-157">
+        WMS Version 1.1.0 are mapped now aswell.
+      </action>    	
       <action type="fix" dev="wemove" issue="INGRID-2130">
         Invalid WMS (GetCap) are now NOT indexed, mapper return null document if problems, avoiding indexing and "Kein Titel" results.
       </action>
