@@ -18,7 +18,7 @@ import de.ingrid.utils.PlugDescription;
 /**
  * Control the wms parameter page.
  * 
- * @author joachim@wemove.com
+ * @author ma@wemove.com
  * 
  */
 @Controller

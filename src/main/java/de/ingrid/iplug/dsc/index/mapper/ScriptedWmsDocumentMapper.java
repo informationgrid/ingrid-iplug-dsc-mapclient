@@ -106,7 +106,6 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             bindings.put("log", log);
             bindings.put("CAP", capabilitiesUtils);
             bindings.put("IDX", idxUtils);
-            // TODO: use XPATH rather than CAP for queries, refactor CapabilitiesUtils: remove XPATH functionality
             bindings.put("XPATH", xPathUtils);
 
             if (compiledScript != null) {

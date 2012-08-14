@@ -8,16 +8,13 @@ import java.net.URLConnection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+
 
 import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -80,12 +77,9 @@ public class CapabilitiesUtils {
 	public final static String XPATH_EXP_WMS_1_3_0_LAYERTITLES = "//Layer/Title";
 
 	private String urlStr;
-	private XPath xpath = null;
 	final private static Log log = LogFactory.getLog(CapabilitiesUtils.class);
 
-	public CapabilitiesUtils() {
-		xpath = XPathFactory.newInstance().newXPath();
-	}
+	public CapabilitiesUtils() {	}
 
 	public Document requestCaps() {
 		Document doc = null;
@@ -108,7 +102,6 @@ public class CapabilitiesUtils {
 		} catch (ConnectTimeoutException e) {
 			log.error("Url timed out: " + urlStr);
 			log.error("Error creating record ids.", e);
-			System.out.println("Url timed out: " + urlStr);
 //			e.printStackTrace();
 			return null;
 		} catch (MalformedURLException e) {
@@ -144,46 +137,6 @@ public class CapabilitiesUtils {
 		this.urlStr = urlStr;
 	}
 
-	public XPath getXpath() {
-		return xpath;
-	}
-
-	public String evaluate(String evalExpression, Document xmlDoc) {
-		try {
-			return (String) xpath.evaluate(evalExpression, xmlDoc,
-					XPathConstants.STRING);
-		} catch (XPathExpressionException e) {
-			log.error("Error creating record ids.", e);
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	public String[] evaluateList(String evalExpression, Document xmlDoc) {
-		try {
-			NodeList nl = (NodeList) xpath.evaluate(evalExpression, xmlDoc,
-					XPathConstants.NODESET);
-			if (nl != null) {
-				String[] entries = new String[nl.getLength()];
-				for (int i = 0; i < nl.getLength(); i++) {
-					entries[i] = nl.item(i).getTextContent();
-				}
-				return entries;
-			}
-		} catch (XPathExpressionException e) {
-			log.error("Error creating record ids.", e);
-			e.printStackTrace();
-		}
-		return new String[0];
-	}
-
-	public String[] getLuceneStringArray(String field,
-			org.apache.lucene.document.Document luceneDoc) {
-		if (luceneDoc.getValues(field) != null)
-			return luceneDoc.getValues(field);
-		else
-			return null;
-	}
 
 	/**
 	 * Transforms an igc number string (e.g. x1, x2, y1, y2 from index) to a
