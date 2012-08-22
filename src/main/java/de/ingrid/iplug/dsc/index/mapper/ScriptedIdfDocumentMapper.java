@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.springframework.core.io.Resource;
+import org.w3c.dom.Document;
 
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.utils.CapabilitiesUtils;
@@ -104,8 +105,9 @@ import de.ingrid.utils.xpath.XPathUtils;
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             DOMUtils domUtils = new DOMUtils(w3cDoc, xPathUtils);
             XMLUtils xmlUtils = new XMLUtils();
-            
+            org.w3c.dom.Document wmsDoc = (org.w3c.dom.Document)record.get("WmsDoc");
             Bindings bindings = engine.createBindings();
+            bindings.put("wmsDoc", wmsDoc);
             bindings.put("CAP", capUtils);
             bindings.put("XML", xmlUtils);
             bindings.put("sourceRecord", record);

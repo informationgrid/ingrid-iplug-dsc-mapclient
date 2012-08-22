@@ -91,18 +91,20 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             if (log.isDebugEnabled()) {
 				log.debug("Requesting " + capabilitiesUtils.getUrlStr());
 			}
-            org.w3c.dom.Document xmlDoc = capabilitiesUtils.requestCaps();
+            org.w3c.dom.Document wmsDoc = capabilitiesUtils.requestCaps();
             // we check for null and return -> NO Exception, so oncoming URLs are processed
-            if (xmlDoc == null) {
+            if (wmsDoc == null) {
                 log.warn("!!! Problems requesting " + capabilitiesUtils.getUrlStr() + " !!! We return null Document so will not be indexed !");
                 return null;
             }
-
+            //we put the xmlDoc(WMS doc) into the record and thereby pass it to the idf-mapper 
+            record.put("WmsDoc", wmsDoc);
+            
             IndexUtils idxUtils = new IndexUtils(doc);
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             
             Bindings bindings = engine.createBindings();
-            bindings.put("xmlDoc", xmlDoc);
+            bindings.put("wmsDoc", wmsDoc);
             bindings.put("log", log);
             bindings.put("CAP", capabilitiesUtils);
             bindings.put("IDX", idxUtils);

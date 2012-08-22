@@ -12,6 +12,9 @@
       <action type="fix" dev="wemove" issue="INGRID-2130">
         Invalid WMS (GetCap) are now NOT indexed, mapper return null document if problems, avoiding indexing and "Kein Titel" results.
       </action>
+      <action type="fix" dev="wemove" >
+        code cleanup, wms to idf mapper gets the original wms doc now and inserts the values directly into the idf doc.
+      </action>    	
     </release>
 
     <release version="3.2.0" date="2012-07-19" description="Release InGrid 3.2">

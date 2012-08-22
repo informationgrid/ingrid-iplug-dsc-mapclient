@@ -29,12 +29,17 @@
 	if (!(sourceRecord instanceof SourceRecord)) {
 		throw new IllegalArgumentException("Record is no SourceRecord!");
 	}
-	
+	//check the version of the wmsDoc
+	var version;
+	if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.1" || XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.0")	
+		version = "1.1.";
+	else if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_VERSION) == "1.3.0")
+		version = "1.3.";
 	// ---------- Initialize ----------
 	//this used to be done by the ScriptedIdfMapper, but we now do it via js
 	//because the whole indexing and mapping is done in one go via implemenation
 	//of the IRecordMapper
-	
+//	var wmsDoc = sourceRecord.get("WmsDoc");
 	DOM.addNS("idf", "http://www.portalu.de/IDF/1.0");
 	
 	var html = DOM.createElement("idf:html");
@@ -73,7 +78,11 @@
 	mdMetadata.addAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 	mdMetadata.addAttribute("xsi:schemaLocation", DOM.getNS("gmd")+" http://schemas.opengis.net/csw/2.0.2/profiles/apiso/1.0.0/apiso.xsd");
 
-    var fileIdentifier = luceneDoc.get("t011_obj_serv_op_connpoint.connect_point");
+//    var fileIdentifier = luceneDoc.get("t011_obj_serv_op_connpoint.connect_point");
+	if(version == "1.1.")
+		var fileIdentifier = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF);
+	else if(version == "1.3.")		
+		var fileIdentifier = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF);
     if (hasValue(fileIdentifier)) {
     	mdMetadata.addElement("gmd:fileIdentifier/gco:CharacterString").addText(fileIdentifier);
     }
@@ -101,16 +110,22 @@
 	var identificationInfo;
 	
 	identificationInfo = mdMetadata.addElement("gmd:identificationInfo/srv:SV_ServiceIdentification");
-	identificationInfo.addAttribute("uuid", luceneDoc.get("id"));
+	//we define the unique id as the url of the service
+	identificationInfo.addAttribute("uuid", CAP.getUrlStr());
 	
 	// ---------- <gmd:identificationInfo/gmd:citation/gmd:CI_Citation> ----------
 	var ciCitation = identificationInfo.addElement("gmd:citation/gmd:CI_Citation");
 	// ---------- <gmd:identificationInfo/gmd:citation/gmd:CI_Citation/gmd:title> ----------
-	ciCitation.addElement("gmd:title/gco:CharacterString").addText(luceneDoc.get("title"));
+	if(version == "1.1.")
+		ciCitation.addElement("gmd:title/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_TITLE));
+	else if(version == "1.3.")
+		ciCitation.addElement("gmd:title/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_TITLE));
 	// ---------- <gmd:identificationInfo/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier> ----------
-	ciCitation.addElement("gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString").addText(luceneDoc.get("id")); 
-	
-	identificationInfo.addElement("gmd:abstract/gco:CharacterString").addText(luceneDoc.get("summary"));
+	ciCitation.addElement("gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString").addText(CAP.getUrlStr()); 
+	if(version == "1.1.")
+		identificationInfo.addElement("gmd:abstract/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_ABSTRACT));
+	else if(version == "1.3.")
+		identificationInfo.addElement("gmd:abstract/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_ABSTRACT));
 	identificationInfo.addElement("gmd:pointOfContact").addElement(getIdfResponsibleParty("pointOfContact"));
 	var mdKeywords = getMdKeywords();
 	if (mdKeywords != null)
@@ -119,32 +134,49 @@
 // ---------- <gmd:identificationInfo/gmd:resourceConstraints> ----------
     // ---------- <gmd:MD_LegalConstraints> ----------
     addResourceConstraints(identificationInfo);			
-	identificationInfo.addElement("srv:serviceType/gco:LocalName").addText("view");				
-    identificationInfo.addElement("srv:serviceTypeVersion/gco:CharacterString").addText(luceneDoc.get("t011_obj_serv_version.version"));		
-    
+	identificationInfo.addElement("srv:serviceType/gco:LocalName").addText("view");		
+	if(version == "1.1.")
+    	identificationInfo.addElement("srv:serviceTypeVersion/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION));		
+    else if(version == "1.3.")
+    	identificationInfo.addElement("srv:serviceTypeVersion/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_VERSION));
     var exExtent = null;
     var extentElemName = "srv:extent";
     if (!exExtent) {
 	    exExtent = identificationInfo.addElement(extentElemName).addElement("gmd:EX_Extent");
 	}
-    if (hasValue(luceneDoc.get("spatial_ref_value.x1")) && hasValue(luceneDoc.get("spatial_ref_value.x2")) && 
-    	hasValue(luceneDoc.get("spatial_ref_value.y1")) && hasValue(luceneDoc.get("spatial_ref_value.y2"))) {
-    	// Spatial_ref_value.x1 MD_Metadata/identificationInfo/MD_DataIdentification/extent/EX_Extent/geographicElement/EX_GeographicBoundingBox.westBoundLongitude/gmd:approximateLongitude
-		var exGeographicBoundingBox = exExtent.addElement("gmd:geographicElement/gmd:EX_GeographicBoundingBox");
-		exGeographicBoundingBox.addElement("gmd:extentTypeCode/gco:Boolean").addText("true");
-		exGeographicBoundingBox.addElement("gmd:westBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(luceneDoc.get("spatial_ref_value.x1")));
-		exGeographicBoundingBox.addElement("gmd:eastBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(luceneDoc.get("spatial_ref_value.x2")));
-		exGeographicBoundingBox.addElement("gmd:southBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(luceneDoc.get("spatial_ref_value.y1")));
-		exGeographicBoundingBox.addElement("gmd:northBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(luceneDoc.get("spatial_ref_value.y2")));
-	}	
+	if(version == "1.1."){
+	    if (hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MINX)) && hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXX)) && 
+	    	hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MINY)) && hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXY))) {
+	    	// Spatial_ref_value.x1 MD_Metadata/identificationInfo/MD_DataIdentification/extent/EX_Extent/geographicElement/EX_GeographicBoundingBox.westBoundLongitude/gmd:approximateLongitude
+			var exGeographicBoundingBox = exExtent.addElement("gmd:geographicElement/gmd:EX_GeographicBoundingBox");
+			exGeographicBoundingBox.addElement("gmd:extentTypeCode/gco:Boolean").addText("true");
+			exGeographicBoundingBox.addElement("gmd:westBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MINX)));
+			exGeographicBoundingBox.addElement("gmd:eastBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXX)));
+			exGeographicBoundingBox.addElement("gmd:southBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MINY)));
+			exGeographicBoundingBox.addElement("gmd:northBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CAPABILITIES_BBOX_MAXY)));
+		}	
+	}else if(version == "1.3."){
+	    if (hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MINX)) && hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXX)) && 
+	    	hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MINY)) && hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXY))) {
+	    	// Spatial_ref_value.x1 MD_Metadata/identificationInfo/MD_DataIdentification/extent/EX_Extent/geographicElement/EX_GeographicBoundingBox.westBoundLongitude/gmd:approximateLongitude
+			var exGeographicBoundingBox = exExtent.addElement("gmd:geographicElement/gmd:EX_GeographicBoundingBox");
+			exGeographicBoundingBox.addElement("gmd:extentTypeCode/gco:Boolean").addText("true");
+			exGeographicBoundingBox.addElement("gmd:westBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MINX)));
+			exGeographicBoundingBox.addElement("gmd:eastBoundLongitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXX)));
+			exGeographicBoundingBox.addElement("gmd:southBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MINY)));
+			exGeographicBoundingBox.addElement("gmd:northBoundLatitude/gco:Decimal").addText(CAP.getISODecimalFromIGCNumber(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CAPABILITIES_BBOX_MAXY)));
+		}		
+	}
     
                 var svContainsOperations = identificationInfo.addElement("srv:containsOperations");
                 var svOperationMetadata = svContainsOperations.addElement("srv:SV_OperationMetadata");
 
         // ---------- <srv:SV_OperationMetadata/srv:operationName> ----------
                 svOperationMetadata.addElement("srv:operationName/gco:CharacterString").addText("GetCapabilities");
-                svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(luceneDoc.get("t011_obj_serv_op_connpoint.connect_point"));
-    
+            if(version == "1.1.")
+                svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF));
+    		else if(version == "1.3.")
+    			svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF));
 	function hasValue(val) {
 		if (typeof val == "undefined") {
 			return false;
@@ -164,65 +196,108 @@
 		var myElementName = "idf:idfResponsibleParty";
 	
 		var idfResponsibleParty = DOM.createElement(myElementName).addAttribute(
-				"uuid", luceneDoc.get("id")).addAttribute("type", "0");//erstmal 0 für institution später differenzieren wir
-		var individualName = luceneDoc.get("t02_address.lastname");//the whole person of contact gets mapped into this field        
-	
-		if (hasValue(individualName)) {
-			idfResponsibleParty.addElement("gmd:individualName")
-					.addElement("gco:CharacterString").addText(individualName);
-		}
-	
-		var institution = luceneDoc.get("t02_address.institution");
-		if (hasValue(institution)) {
-			idfResponsibleParty.addElement("gmd:organisationName")
-					.addElement("gco:CharacterString").addText(institution);
-		}
-	
-		var ciContact = idfResponsibleParty.addElement("gmd:contactInfo")
-				.addElement("gmd:CI_Contact");
-	
-		var ciTelephone = ciContact.addElement("gmd:phone")
-				.addElement("gmd:CI_Telephone");
-		ciTelephone.addElement("gmd:voice/gco:CharacterString").addText(luceneDoc
-				.get("t021_communication.comm_value_phone"));
-		var emailAddress = luceneDoc.get("t021_communication.comm_value_email");
-	
-		var ciAddress;
-	
-		if (hasValue(luceneDoc.get("t02_address.postbox_pc"))
-				|| hasValue(luceneDoc.get("t02_address.city"))
-				|| hasValue(luceneDoc.get("t02_address.street"))) {
+				"uuid", CAP.getUrlStr()).addAttribute("type", "0");//erstmal 0 für institution später differenzieren wir
+		if(version == "1.1."){				
+			var individualName = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_PERSON);//the whole person of contact gets mapped into this field        
+			if (hasValue(individualName)) {
+				idfResponsibleParty.addElement("gmd:individualName")
+						.addElement("gco:CharacterString").addText(individualName);
+			}
+			if(version == "1.1.")
+			var institution = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_ORGANIZATION);
+			if (hasValue(institution)) {
+				idfResponsibleParty.addElement("gmd:organisationName")
+						.addElement("gco:CharacterString").addText(institution);
+			}
+		
+			var ciContact = idfResponsibleParty.addElement("gmd:contactInfo")
+					.addElement("gmd:CI_Contact");
+		
+			var ciTelephone = ciContact.addElement("gmd:phone")
+					.addElement("gmd:CI_Telephone");
+			ciTelephone.addElement("gmd:voice/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_VOICE_TELEPHONE));
+			var emailAddress = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_EMAIL_ADDRESS);
+		
+			var ciAddress;
+		
+			if (hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_POSTAL_CITY))
+					|| hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_POSTAL_ADDRESS))) {
+				if (!ciAddress)
+					ciAddress = ciContact.addElement("gmd:address")
+							.addElement("gmd:CI_Address");
+		
+				ciAddress.addElement("gmd:deliveryPoint")
+						.addElement("gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_POSTAL_ADDRESS));
+				ciAddress.addElement("gmd:city").addElement("gco:CharacterString")
+						.addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_POSTAL_CITY));
+				ciAddress.addElement("gmd:postalCode")
+						.addElement("gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_CONTACT_POSTAL_POSTCODE));
+			}
+		
 			if (!ciAddress)
-				ciAddress = ciContact.addElement("gmd:address")
-						.addElement("gmd:CI_Address");
-	
-			ciAddress.addElement("gmd:deliveryPoint")
-					.addElement("gco:CharacterString").addText(luceneDoc
-							.get("t02_address.street"));
-			ciAddress.addElement("gmd:city").addElement("gco:CharacterString")
-					.addText(luceneDoc.get("t02_address.city"));
-			ciAddress.addElement("gmd:postalCode")
-					.addElement("gco:CharacterString").addText(luceneDoc
-							.get("t02_address.postcode"));
+				ciAddress = ciContact.addElement("gmd:address/gmd:CI_Address");
+		
+			ciAddress.addElement("gmd:electronicMailAddress/gco:CharacterString")
+					.addText(emailAddress);
+		
+			if (hasValue(role)) {
+				idfResponsibleParty
+						.addElement("gmd:role/gmd:CI_RoleCode")
+						.addAttribute("codeList",
+								"http://www.tc211.org/ISO19139/resources/codeList.xml#CI_RoleCode")
+						.addAttribute("codeListValue", role);
+			} else {
+				idfResponsibleParty.addElement("gmd:role").addAttribute(
+						"gco:nilReason", "inapplicable");
+			}
+		}else if(version == "1.3."){
+			var institution = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_ORGANIZATION);
+			if (hasValue(institution)) {
+				idfResponsibleParty.addElement("gmd:organisationName")
+						.addElement("gco:CharacterString").addText(institution);
+			}
+		
+			var ciContact = idfResponsibleParty.addElement("gmd:contactInfo")
+					.addElement("gmd:CI_Contact");
+		
+			var ciTelephone = ciContact.addElement("gmd:phone")
+					.addElement("gmd:CI_Telephone");
+			ciTelephone.addElement("gmd:voice/gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_VOICE_TELEPHONE));
+			var emailAddress = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_EMAIL_ADDRESS);
+		
+			var ciAddress;
+		
+			if (hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_POSTAL_CITY))
+					|| hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_POSTAL_ADDRESS))) {
+				if (!ciAddress)
+					ciAddress = ciContact.addElement("gmd:address")
+							.addElement("gmd:CI_Address");
+		
+				ciAddress.addElement("gmd:deliveryPoint")
+						.addElement("gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_POSTAL_ADDRESS));
+				ciAddress.addElement("gmd:city").addElement("gco:CharacterString")
+						.addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_POSTAL_CITY));
+				ciAddress.addElement("gmd:postalCode")
+						.addElement("gco:CharacterString").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_CONTACT_POSTAL_POSTCODE));
+			}
+		
+			if (!ciAddress)
+				ciAddress = ciContact.addElement("gmd:address/gmd:CI_Address");
+		
+			ciAddress.addElement("gmd:electronicMailAddress/gco:CharacterString")
+					.addText(emailAddress);
+		
+			if (hasValue(role)) {
+				idfResponsibleParty
+						.addElement("gmd:role/gmd:CI_RoleCode")
+						.addAttribute("codeList",
+								"http://www.tc211.org/ISO19139/resources/codeList.xml#CI_RoleCode")
+						.addAttribute("codeListValue", role);
+			} else {
+				idfResponsibleParty.addElement("gmd:role").addAttribute(
+						"gco:nilReason", "inapplicable");
+			}			
 		}
-	
-		if (!ciAddress)
-			ciAddress = ciContact.addElement("gmd:address/gmd:CI_Address");
-	
-		ciAddress.addElement("gmd:electronicMailAddress/gco:CharacterString")
-				.addText(emailAddress);
-	
-		if (hasValue(role)) {
-			idfResponsibleParty
-					.addElement("gmd:role/gmd:CI_RoleCode")
-					.addAttribute("codeList",
-							"http://www.tc211.org/ISO19139/resources/codeList.xml#CI_RoleCode")
-					.addAttribute("codeListValue", role);
-		} else {
-			idfResponsibleParty.addElement("gmd:role").addAttribute(
-					"gco:nilReason", "inapplicable");
-		}
-	
 		return idfResponsibleParty;
 	}
 	/**
@@ -232,7 +307,10 @@
 	 * Returns null if no keywords added (no rows found or type of keywords cannot be determined ...) !
 	 */
 	function getMdKeywords() {
-		var kws = luceneDoc.getValues("searchterm_value");
+		if(version == "1.1.")
+			var kws = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_KEYWORDS);
+		else if(version == "1.3.")
+			var kws = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_KEYWORDS);			
 		var mdKeywords = DOM.createElement("gmd:MD_Keywords");
 		var keywordsAdded = false;
 		for (i = 0; i < kws.length; i++) {
@@ -259,9 +337,16 @@
 	function addResourceConstraints(identificationInfo) {
 	
 	       var termsOfUse = null;
-	        if (!hasValue(luceneDoc.get("object_use.terms_of_use_value"))) {
-	        	var termsOfUse = luceneDoc.get("object_use.terms_of_use_value");
-	        }            
+	       if(version == "1.1."){
+	        	if (!hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_ACCESS_CONSTRAINTS))) {
+	        		var termsOfUse = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_ACCESS_CONSTRAINTS);
+	        	}            
+	       }else if(version == "1.3."){
+	        	if (!hasValue(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_ACCESS_CONSTRAINTS))) {
+	        		var termsOfUse = XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_ACCESS_CONSTRAINTS);
+	        	}            	
+	       }
+			
 	
 	        if (hasValue(termsOfUse)) {
 	            identificationInfo.addElement("gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation/gco:CharacterString").addText(termsOfUse);
