@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.ingrid</groupId>
 		<artifactId>ingrid-releases-pom</artifactId>
-		<version>3.3.0-SNAPSHOT</version>
+		<version>3.2.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ingrid</groupId>
@@ -34,6 +34,18 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.0.1</version>
 			</dependency>
+            <dependency>
+                <groupId>de.ingrid</groupId>
+                <artifactId>ingrid-base-webapp</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>de.ingrid</groupId>
+                <artifactId>ingrid-base-webapp</artifactId>
+                <version>3.2.1</version>
+                <classifier>res</classifier>
+                <type>zip</type>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<!-- ==================== DEPENDENCIES ==================== -->
