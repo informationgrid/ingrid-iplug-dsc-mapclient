@@ -198,7 +198,7 @@
 					<archive>
 						<manifestEntries>
 							<!-- see ingrid-utils:de.ingrid.utils.metadata.IPlugType-->
-							<iPlug-Type>IPLUG_DSC</iPlug-Type>
+							<iPlug-Type>IPLUG_DSC_MAPCLIENT</iPlug-Type>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -208,7 +208,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<ingridComponentType>IPLUG_DSC</ingridComponentType>
+							<ingridComponentType>IPLUG_DSC_MAPCLIENT</ingridComponentType>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -221,7 +221,7 @@
 					<archive>
 						<manifestEntries>
 							<!-- see ingrid-utils:de.ingrid.utils.metadata.IPlugType -->
-							<iPlug-Type>IPLUG_DSC</iPlug-Type>
+							<iPlug-Type>IPLUG_DSC_MAPCLIENT</iPlug-Type>
 						</manifestEntries>
 					</archive>
 					<webResources>
