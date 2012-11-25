@@ -17,9 +17,9 @@
     </properties>
 	<scm>
 		<connection>
-    scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-iplug-dsc-mapclient/trunk</connection>
+    scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-iplug-dsc-mapclient/branches/ingrid-iplug-dsc-mapclient-3.2.x</connection>
 		<developerConnection>
-    scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-iplug-dsc-mapclient/trunk</developerConnection>
+    scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-iplug-dsc-mapclient/branches/ingrid-iplug-dsc-mapclient-3.2.x</developerConnection>
 	</scm>
 	<repositories>
 		<!-- Repo of parent pom needed, parent pom may not be installed locally yet -->
