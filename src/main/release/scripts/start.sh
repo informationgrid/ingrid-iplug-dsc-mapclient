@@ -31,7 +31,7 @@ if [ -f $INGRID_HOME/conf/plugdescription.xml ]; then
 fi
 
 # include a debug script, if available, i.e. to specify debug port, etc.
-# caution: the debug script must echo the actual command to be able to work in the current environment
+# caution: the jmx script must echo the actual command to be able to work in the current environment
 if [ -f $INGRID_HOME/debug.sh ]; then
   eval `sh $INGRID_HOME/debug.sh`
 fi
