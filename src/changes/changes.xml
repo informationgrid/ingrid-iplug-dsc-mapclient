@@ -7,7 +7,7 @@
   <body>
     <release version="3.4.0-SNAPSHOT" date="??" description="??">
         <action type="fix" dev="wemove">
-            Metada of iPlug (type, version etc. displayed in iBus) is now extracted from correct jar (ingrid-iplug-dsc-mapclient.jar).
+            Metada of iPlug (type, version etc. displayed in iBus) is now extracted from correct jar (ingrid-iplug-dsc-mapclient.jar) -> new iPlug Type IPLUG_DSC_MAPCLIENT.
         </action>
     </release>
 
