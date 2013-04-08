@@ -5,6 +5,12 @@
     <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
   </properties>
   <body>
+    <release version="3.4.0-SNAPSHOT" date="2013-xx-xx" description="Release InGrid 3.4.0-SNAPSHOT">
+        <action type="update" dev="wemove">
+          Map keywords consistently to t04search... index fields.
+        </action>
+    </release>
+
     <release version="3.3.0.1" date="2013-03-15" description="Bugfix Release 3.3.0">
         <action type="fix" dev="wemove">
             Metada of iPlug (type, version etc. displayed in iBus) is now extracted from correct jar (ingrid-iplug-dsc-mapclient.jar) -> new iPlug Type IPLUG_DSC_MAPCLIENT.

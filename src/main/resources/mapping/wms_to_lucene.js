@@ -55,7 +55,7 @@ if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.1" || XPATH.
 	var entries = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_KEYWORDS);
 	for(var i = 0; i < entries.length; i++){
 		if(entries[i] != '')
-		IDX.add("searchterm_value", entries[i]);
+		IDX.add("t04_search.searchterm", entries[i]);
 	}
 	var layerTitles = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES);
 	for(var i = 0; i < layerTitles.length; i++){
@@ -89,7 +89,7 @@ if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.1" || XPATH.
 	var entries = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_KEYWORDS);
 	for(var i = 0; i < entries.length; i++){
 		if(entries[i] != '')
-		IDX.add("searchterm_value", entries[i]);
+		IDX.add("t04_search.searchterm", entries[i]);
 	}
 	var layerTitles = XPATH.getStringArray(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_LAYERTITLES);
 	for(var i = 0; i < layerTitles.length; i++){
