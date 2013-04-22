@@ -15,9 +15,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.w3c.dom.Document;
 
+import de.ingrid.admin.search.Stemmer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.utils.CapabilitiesUtils;
 import de.ingrid.iplug.dsc.utils.DOMUtils;
@@ -50,6 +51,11 @@ import de.ingrid.utils.xpath.XPathUtils;
     private CompiledScript compiledScript;
     private DocumentBuilderFactory dbf = null;
     DocumentBuilder docBuilder = null;
+
+    /** The default stemmer used in IndexUtils Tool !
+     * Is AUTOWIRED in spring environment via {@link #setDefaultStemmer(Stemmer)}
+     */
+    private static Stemmer _defaultStemmer;
 
     private static final Logger log = Logger.getLogger(ScriptedDocumentMapper.class);
 
@@ -100,7 +106,7 @@ import de.ingrid.utils.xpath.XPathUtils;
 
 
 
-            IndexUtils idxUtils = new IndexUtils(luceneDoc);
+            IndexUtils idxUtils = new IndexUtils(luceneDoc, _defaultStemmer);
             CapabilitiesUtils capUtils = new CapabilitiesUtils();
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             DOMUtils domUtils = new DOMUtils(w3cDoc, xPathUtils);
@@ -149,5 +155,11 @@ import de.ingrid.utils.xpath.XPathUtils;
         this.compile = compile;
     }
 
-
+    /** Injects default stemmer via autowiring !
+     * @param defaultStemmer
+     */
+    @Autowired
+    public void setDefaultStemmer(Stemmer defaultStemmer) {
+    	_defaultStemmer = defaultStemmer;
+	}
 }

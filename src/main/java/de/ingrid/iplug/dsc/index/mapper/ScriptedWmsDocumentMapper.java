@@ -16,8 +16,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
+import de.ingrid.admin.search.Stemmer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.utils.CapabilitiesUtils;
 import de.ingrid.iplug.dsc.utils.IndexUtils;
@@ -44,6 +46,11 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
 
     private ScriptEngine engine;
     private CompiledScript compiledScript;
+
+    /** The default stemmer used in IndexUtils Tool !
+     * Is AUTOWIRED in spring environment via {@link #setDefaultStemmer(Stemmer)}
+     */
+    private static Stemmer _defaultStemmer;
 
     private static final Logger log = Logger.getLogger(ScriptedDocumentMapper.class);
     private DocumentBuilderFactory dbf = null;
@@ -100,7 +107,7 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             //we put the xmlDoc(WMS doc) into the record and thereby pass it to the idf-mapper 
             record.put("WmsDoc", wmsDoc);
             
-            IndexUtils idxUtils = new IndexUtils(doc);
+            IndexUtils idxUtils = new IndexUtils(doc, _defaultStemmer);
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             
             Bindings bindings = engine.createBindings();
@@ -143,4 +150,11 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
         this.compile = compile;
     }
 
+    /** Injects default stemmer via autowiring !
+     * @param defaultStemmer
+     */
+    @Autowired
+    public void setDefaultStemmer(Stemmer defaultStemmer) {
+    	_defaultStemmer = defaultStemmer;
+	}
 }
