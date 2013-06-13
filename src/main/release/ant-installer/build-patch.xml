@@ -1,0 +1,5 @@
+<project name="DSC-mapclient-iPlug Patches">
+    <target name="patchFiles" depends="">
+        <!-- patch order determined through depends-order -->
+    </target>
+</project>

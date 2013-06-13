@@ -1,38 +1,74 @@
-<project name="PortalU Installation">
+<project name="PortalU Installation" basedir=".">
     <description>
         InGrid iPlug-DSC Installation Script
     </description>
-	<!-- set global properties for this build -->
-	<property name="componentName" 			value="${project.build.finalName}"/>
-	<property name="xml-communication" 	value="${installDir}/conf/communication.xml"/>
+    <!-- set global properties for this build -->
+    <property name="componentName"          value="${project.build.finalName}"/>
+    <property name="xml-communication"  value="${installDir}/conf/communication.xml"/>
     <property name="start-script"       value="${installDir}/start.sh"/>
-	
-	<target name="extract" description="Extract all files to the installation directory.">
-		<unzip src="${antinstaller.jar}" dest="${installDir}">
-			<patternset>
-				<include name="${componentName}/**/*.*"/>
-			</patternset>
-		</unzip>
-		
-		<move toDir="${installDir}">
-			<fileset dir="${installDir}/${componentName}"/>
-		</move>
-		
-		<mkdir dir="${installDir}/logs"/>
+
+    <!-- THESE PORPERTIES ARE NECESSARY FOR UPDATES -->
+    <property name="libraryDir"         value="lib" />
+    <property name="libraryIdent"       value="ingrid-iplug-dsc-mapclient-" />
+    <!-- <property name="libraryIdent"       value="MANIFEST.MF" /> -->
+    <property name="versionsWithConfigurations"  value="" />
+    <property name="minSupportedVersion" value="3.3.0" />
+
+    <import file="build-installer-utils.xml"  as="utils" />
+    <import file="build-patch.xml"            as="patch" />
+
+    <target name="setUpdateProperty" depends="checkPreconditionsForUpdate, extractUpdate">
+        <property name="installType" value="update" />
+        <property name="updateProcedure" value="true" />
+    </target>
+    
+    <target name="setInstallProperty" depends="extract">
+        <property name="installProcedure" value="true" />
+    </target>
+    
+    <target name="extract" description="Extract all files to the installation directory.">
+        <unzip src="${antinstaller.jar}" dest="${installDir}">
+            <patternset>
+                <include name="${componentName}/**/*.*"/>
+            </patternset>
+        </unzip>
+        
+        <move toDir="${installDir}">
+            <fileset dir="${installDir}/${componentName}"/>
+        </move>
+        
+        <mkdir dir="${installDir}/logs"/>
         
         <replace file="${start-script}" token="@SERVER_PORT@" value="${localServerPort}"/>
-	</target>
+    </target>
   
+    <target name="extractUpdate">
+        <unzip src="${antinstaller.jar}" dest=".">
+            <patternset>
+                <include name="**/*.*"/>
+                <exclude name="${componentName}/conf/communication.xml" />
+                <exclude name="${componentName}/start.sh" />
+            </patternset>
+        </unzip>
+        
+        <delete>
+            <fileset dir="${installDir}/lib" includes="**/*"/>
+        </delete>
+        
+        <move toDir="${installDir}">
+            <fileset dir="./${componentName}"/>
+        </move>
+    </target>
 
     
-	<target name="startComponent">
-		<echo>
+    <target name="startComponent">
+        <echo>
 =================
 Weiteres Vorgehen
 =================
 
-		</echo>
-		<echo>
+        </echo>
+        <echo>
 Gehen Sie ins Verzeichnis:
 ${installDir}
 und rufen sie von der Kommandozeile folgendes auf
@@ -49,7 +85,7 @@ Administration (im Portal) eingeschaltet werden.
 Weitere Informationen entnehmen Sie bitte dem
 Online-Handbuch unter 
 http://www.kst.portalu.de/wiki/index.php/InGrid_Installation.
-		</echo>
-	</target>
-	
+        </echo>
+    </target>
+    
 </project>
