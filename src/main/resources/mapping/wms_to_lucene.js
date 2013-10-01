@@ -26,7 +26,7 @@ if (!(wmsDoc instanceof org.w3c.dom.Document)) {
 }
 
 var objectClass = 3;
-IDX.add("id", CAP.getUrlStr());
+IDX.add("id", escape(CAP.getUrlStr()));
 // we check for version 1.1.0 just as version 1.1.1. since they basically have the same structure
 if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.1" || XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.0"){
 	IDX.add("t01_object.obj_class",objectClass);
