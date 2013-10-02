@@ -174,9 +174,9 @@
         // ---------- <srv:SV_OperationMetadata/srv:operationName> ----------
                 svOperationMetadata.addElement("srv:operationName/gco:CharacterString").addText("GetCapabilities");
             if(version == "1.1.")
-                svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF));
+                svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(sourceRecord.get("id"));
     		else if(version == "1.3.")
-    			svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF));
+    			svOperationMetadata.addElement("srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL").addText(sourceRecord.get("id"));
 	function hasValue(val) {
 		if (typeof val == "undefined") {
 			return false;
