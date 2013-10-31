@@ -5,13 +5,16 @@
     <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
   </properties>
   <body>
-    <release version="3.4.0-SNAPSHOT" date="2013-xx-xx" description="Release InGrid 3.4.0-SNAPSHOT">
+    <release version="3.3.1" date="2013-10-13" description="Release InGrid 3.3.1">
       <action type="update" dev="wemove" issue="INGRID-2246">
           Use german analyzer when creating/searching lucene index, now configured via XML.
           Also fix encoding of umlaute in request parameters (test search with umlaute works now in admin-gui).
       </action>
         <action type="update" dev="wemove">
           Map keywords consistently to t04search... index fields.
+        </action>
+        <action type="update" dev="wemove">
+          Use webmapclient capabilities URLs in mapping to IDF, lucene.
         </action>
     </release>
 
