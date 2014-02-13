@@ -32,7 +32,7 @@ if(XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION) == "1.1.1" || XPATH.
 	IDX.add("t01_object.obj_class",objectClass);
 	IDX.add("title",XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_TITLE));
 	IDX.add("t011_obj_serv_version.version",XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_VERSION));
-	IDX.add("t011_obj_serv.type","wms");
+	IDX.add("t011_obj_serv.type","view");
 	IDX.add("t011_obj_serv_op_connpoint.connect_point",CAP.getUrlStr());
 	IDX.add("t01_object.obj_id",CAP.getUrlStr());
 	IDX.add("summary",XPATH.getString(wmsDoc, CAP.XPATH_EXP_WMS_1_1_1_ABSTRACT));
