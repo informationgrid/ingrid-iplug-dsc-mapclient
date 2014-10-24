@@ -55,7 +55,7 @@
                     <tr>
                         <td class="leftCol">Webmap-client config file</td>
                         <td>
-                            <form:input path="xmlFilePath" />
+                            <div class="input full"><form:input path="xmlFilePath" /></div>
                             <form:errors path="xmlFilePath" cssClass="error" element="div" />
                             <br />
                             Please supply the location of the webmap-client config file. It is needed to fetch the capabilities urls and index them,
