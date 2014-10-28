@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.ingrid.admin.command.PlugdescriptionCommandObject;
 import de.ingrid.admin.controller.AbstractController;
+import de.ingrid.iplug.dsc.DscMapclientSearchPlug;
 import de.ingrid.iplug.dsc.index.data.WmsFormModel;
 import de.ingrid.iplug.dsc.webapp.validation.WmsFormModelValidator;
 
@@ -63,8 +64,8 @@ public class WmsFormContainerController extends AbstractController {
     private void mapParamsToPD(WmsFormModel wmsModel,
             PlugdescriptionCommandObject pdCommandObject) {
 
-        
-        pdCommandObject.put("WebmapXmlConfigFile", wmsModel.getXmlFilePath());
+        // only set in configuration, which will update the plugdescription
+        DscMapclientSearchPlug.conf.webmapclientConfig = wmsModel.getXmlFilePath();
         
         // add required datatypes to PD
         //pdCommandObject.addDataType("IDF_1.0");

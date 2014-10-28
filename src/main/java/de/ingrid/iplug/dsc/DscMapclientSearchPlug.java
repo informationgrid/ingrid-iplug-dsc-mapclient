@@ -30,7 +30,7 @@ import de.ingrid.utils.processor.IPreProcessor;
 @Service
 public class DscMapclientSearchPlug extends DscSearchPlug {
 
-	public static Configuration conf;
+	public static ConfigurationDscMapClient conf;
 	
 	@Autowired
     public DscMapclientSearchPlug(final IngridIndexSearcher indexSearcher,
@@ -41,7 +41,7 @@ public class DscMapclientSearchPlug extends DscSearchPlug {
     }
 	
 	public static void main(String[] args) throws Exception {
-        conf = new ConfigBuilder<Configuration>(Configuration.class).withCommandLineArgs(args).build();
+        conf = new ConfigBuilder<ConfigurationDscMapClient>(ConfigurationDscMapClient.class).withCommandLineArgs(args).build();
         new JettyStarter( conf );
     }
 }

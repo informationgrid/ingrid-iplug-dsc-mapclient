@@ -123,6 +123,7 @@ import de.ingrid.utils.xpath.XPathUtils;
             bindings.put("IDX", idxUtils);
             bindings.put("XPATH", xPathUtils);
             bindings.put("DOM", domUtils);
+            bindings.put("javaVersion", System.getProperty( "java.version" ));
 
             if (compiledScript != null) {
                 compiledScript.eval(bindings);

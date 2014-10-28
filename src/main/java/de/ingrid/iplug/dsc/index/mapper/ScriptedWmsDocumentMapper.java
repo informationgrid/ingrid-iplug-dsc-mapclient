@@ -116,6 +116,7 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             bindings.put("CAP", capabilitiesUtils);
             bindings.put("IDX", idxUtils);
             bindings.put("XPATH", xPathUtils);
+            bindings.put("javaVersion", System.getProperty( "java.version" ));
 
             if (compiledScript != null) {
                 compiledScript.eval(bindings);
