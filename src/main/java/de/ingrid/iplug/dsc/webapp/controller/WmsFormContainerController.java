@@ -13,7 +13,6 @@ import de.ingrid.admin.command.PlugdescriptionCommandObject;
 import de.ingrid.admin.controller.AbstractController;
 import de.ingrid.iplug.dsc.index.data.WmsFormModel;
 import de.ingrid.iplug.dsc.webapp.validation.WmsFormModelValidator;
-import de.ingrid.utils.PlugDescription;
 
 /**
  * Control the wms parameter page.
@@ -67,18 +66,6 @@ public class WmsFormContainerController extends AbstractController {
         
         pdCommandObject.put("WebmapXmlConfigFile", wmsModel.getXmlFilePath());
         
-        //TODO what is still necessary of the commands below?!?
-        pdCommandObject.setRankinTypes(true, false, false);
-
-        // add necessary fields so iBus actually will query us
-        // remove field first to prevent multiple equal entries
-        pdCommandObject.removeFromList(PlugDescription.FIELDS, "incl_meta");
-        pdCommandObject.addField("incl_meta");
-        pdCommandObject.removeFromList(PlugDescription.FIELDS, "t01_object.obj_class");
-        pdCommandObject.addField("t01_object.obj_class");
-        pdCommandObject.removeFromList(PlugDescription.FIELDS, "metaclass");
-        pdCommandObject.addField("metaclass");
-
         // add required datatypes to PD
         //pdCommandObject.addDataType("IDF_1.0");
     }

@@ -14,7 +14,6 @@ import com.tngtech.configbuilder.ConfigBuilder;
 import de.ingrid.admin.JettyStarter;
 import de.ingrid.admin.search.IngridIndexSearcher;
 import de.ingrid.iplug.IPlugdescriptionFieldFilter;
-import de.ingrid.iplug.dsc.record.DscRecordCreator;
 import de.ingrid.utils.metadata.IMetadataInjector;
 import de.ingrid.utils.processor.IPostProcessor;
 import de.ingrid.utils.processor.IPreProcessor;
