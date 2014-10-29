@@ -50,17 +50,17 @@
                 <table id="konfigForm">
                     <br />
                     <tr>
-                        <td colspan="2"><h3>Choose the wms configuration parameters:</h3></td>
+                        <td colspan="2"><h3>WMS Konfigurations Einstellungen:</h3></td>
                     </tr>
                     <tr>
-                        <td class="leftCol">Webmap-client config file</td>
+                        <td class="leftCol">Konfigurationsdatei</td>
                         <td>
                             <div class="input full"><form:input path="xmlFilePath" /></div>
                             <form:errors path="xmlFilePath" cssClass="error" element="div" />
                             <br />
-                            Please supply the location of the webmap-client config file. It is needed to fetch the capabilities urls and index them,
+                            Geben Sie den Ort der webmap-client Konfigurationsdatei an. Diese wird benötigt, um die Capabilities-URLs anzufragen und zu indexieren.
                             
-                            <p style="color: gray;">(Sample: /opt/portalu/ingrid-auto/ingrid-portal/apache-tomcat-5.5.26/webapps/ingrid-webmap-client/WEB-INF/classes/ingrid_webmap_client_config.xml)</p>
+                            <p style="color: gray;">(Zum Beispiel: /opt/portalu/ingrid-auto/ingrid-portal/apache-tomcat-5.5.26/webapps/ingrid-webmap-client/WEB-INF/classes/ingrid_webmap_client_config.xml)</p>
                         </td>
                     </tr>
                 </table>
