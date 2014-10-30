@@ -18,6 +18,7 @@ import de.ingrid.utils.PlugDescription;
 @PropertyLocations(directories = {"conf"}, fromClassLoader = true)
 public class ConfigurationDscMapClient implements IConfig {
     
+    @SuppressWarnings("unused")
     private static Log log = LogFactory.getLog(ConfigurationDscMapClient.class);
     
     @PropertyValue("plugdescription.fields")
