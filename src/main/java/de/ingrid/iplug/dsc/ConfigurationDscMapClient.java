@@ -23,13 +23,6 @@ public class ConfigurationDscMapClient implements IConfig {
     @PropertyValue("plugdescription.fields")
     public String fields;
     
-    @PropertyValue("plugdescription.isRecordLoader")
-    @DefaultValue("false")
-    public boolean recordLoader;
-    
-    @PropertyValue("plugdescription.ranking")
-    public String rankings;
-    
     @PropertyValue("plugdescription.WebmapXmlConfigFile")
     @DefaultValue("")
     public String webmapclientConfig;
@@ -50,27 +43,6 @@ public class ConfigurationDscMapClient implements IConfig {
         pdObject.addField("t01_object.obj_class");
         pdObject.removeFromList(PlugDescription.FIELDS, "metaclass");
         pdObject.addField("metaclass");
-        
-        pdObject.setRecordLoader(recordLoader);
-        
-        if(pdObject.getRankingTypes().length == 0){
-        	if(rankings != null){
-        		String[] rankingList = rankings.split(",");
-        		boolean score = true; // here it's always score
-				boolean date = false;
-				boolean notRanked = false;
-				for(String ranking : rankingList){
-        			if(ranking.equals("score")){
-        				score = true;
-        			}else if (ranking.equals("date")) {
-        				date = true;
-					}else if (ranking.equals("notRanked")) {
-						notRanked = true;
-					}
-        		}
-				pdObject.setRankinTypes(score, date, notRanked);
-        	}
-    	}
         
         pdObject.put("WebmapXmlConfigFile", webmapclientConfig);
     }
