@@ -36,6 +36,7 @@ import com.tngtech.configbuilder.ConfigBuilder;
 import de.ingrid.admin.JettyStarter;
 import de.ingrid.admin.search.IngridIndexSearcher;
 import de.ingrid.iplug.IPlugdescriptionFieldFilter;
+import de.ingrid.iplug.dsc.record.DscRecordCreator;
 import de.ingrid.utils.metadata.IMetadataInjector;
 import de.ingrid.utils.processor.IPostProcessor;
 import de.ingrid.utils.processor.IPreProcessor;
@@ -58,8 +59,8 @@ public class DscMapclientSearchPlug extends DscSearchPlug {
     public DscMapclientSearchPlug(final IngridIndexSearcher indexSearcher,
             IPlugdescriptionFieldFilter[] fieldFilters,
             IMetadataInjector[] injector, IPreProcessor[] preProcessors,
-            IPostProcessor[] postProcessors) throws IOException {
-		super(indexSearcher, fieldFilters, injector, preProcessors, postProcessors);
+            IPostProcessor[] postProcessors, DscRecordCreator producer) throws IOException {
+		super(indexSearcher, fieldFilters, injector, preProcessors, postProcessors, producer);
     }
 	
 	public static void main(String[] args) throws Exception {
