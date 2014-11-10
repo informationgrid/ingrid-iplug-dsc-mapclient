@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  **************************************************-
+  ingrid-iplug-dsc-mapclient
+  ==================================================
+  Copyright (C) 2014 wemove digital solutions GmbH
+  ==================================================
+  Licensed under the EUPL, Version 1.1 or – as soon they will be
+  approved by the European Commission - subsequent versions of the
+  EUPL (the "Licence");
+
+  You may not use this work except in compliance with the Licence.
+  You may obtain a copy of the Licence at:
+
+  http://ec.europa.eu/idabc/eupl5
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the Licence is distributed on an "AS IS" basis,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the Licence for the specific language governing permissions and
+  limitations under the Licence.
+  **************************************************#
+  -->
+
 <document>
   <properties>
     <title>History Ingrid DSC (mapclient) iPlug</title>
     <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
   </properties>
   <body>
+    <release version="3.5-SNAPSHOT" date="2014-xx-xx" description="Release InGrid 3.5">
+        <action type="add" dev="wemove" issue="REDMINE-524">
+            Added license header to all source files for Open Source migration.
+        </action>
+  </release>
 	<release version="3.4.0" date="2014-02-25" description="Release InGrid 3.4.0">
 	  <action type="fix" dev="wemove" >
            Set index value for service type to view.
 	  </action>
 	</release>
-	
+
     <release version="3.3.1" date="2013-10-13" description="Release InGrid 3.3.1">
       <action type="update" dev="wemove" issue="INGRID-2246">
           Use german analyzer when creating/searching lucene index, now configured via XML.
@@ -45,7 +73,7 @@
     <release version="3.2.1" date="2012-09-26" description="Release InGrid 3.2.1">
       <action type="fix" dev="wemove" issue="INGRID32-157">
         WMS Version 1.1.0 are mapped now aswell.
-      </action>    	
+      </action>
       <action type="fix" dev="wemove" issue="INGRID-2130">
         Invalid WMS (GetCap) are now NOT indexed, mapper return null document if problems, avoiding indexing and "Kein Titel" results.
       </action>
@@ -54,7 +82,7 @@
       </action>
       <action type="fix" dev="wemove">
         Infobox during indexing now updates correctly and disappears when finished.
-      </action>      
+      </action>
     </release>
 
     <release version="3.2.0" date="2012-07-19" description="Release InGrid 3.2">
