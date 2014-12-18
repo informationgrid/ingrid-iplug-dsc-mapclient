@@ -4,3 +4,4 @@
 /luceneTestIndex
 /target
 /.classpath
+/*.log*
