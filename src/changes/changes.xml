@@ -28,7 +28,7 @@
     <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
   </properties>
   <body>
-    <release version="3.5-SNAPSHOT" date="2014-xx-xx" description="Release InGrid 3.5">
+    <release version="3.5.0" date="2015-02-02" description="Release InGrid 3.5.0">
         <action type="add" dev="wemove" issue="REDMINE-524">
             Added license header to all source files for Open Source migration.
         </action>

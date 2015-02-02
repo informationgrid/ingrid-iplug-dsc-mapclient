@@ -7,12 +7,12 @@
   Licensed under the EUPL, Version 1.1 or – as soon they will be
   approved by the European Commission - subsequent versions of the
   EUPL (the "Licence");
-  
+
   You may not use this work except in compliance with the Licence.
   You may obtain a copy of the Licence at:
-  
+
   http://ec.europa.eu/idabc/eupl5
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the Licence is distributed on an "AS IS" basis,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@
     <!-- set global properties for this build -->
     <property name="componentName"          value="${project.build.finalName}"/>
     <property name="xml-communication"  value="${installDir}/conf/communication.xml"/>
-	<property name="config"             value="${installDir}/conf/config.override.properties"/>
+    <property name="config"             value="${installDir}/conf/config.override.properties"/>
 
     <!-- THESE PORPERTIES ARE NECESSARY FOR UPDATES -->
     <property name="libraryDir"         value="lib" />
@@ -43,42 +43,42 @@
         <property name="installType" value="update" />
         <property name="updateProcedure" value="true" />
     </target>
-    
+
     <target name="setInstallProperty" depends="extract">
         <property name="installProcedure" value="true" />
     </target>
-    
+
     <target name="extract" description="Extract all files to the installation directory.">
         <unzip src="${antinstaller.jar}" dest="${installDir}">
             <patternset>
                 <include name="${componentName}/**/*.*"/>
             </patternset>
         </unzip>
-        
+
         <move toDir="${installDir}">
             <fileset dir="${installDir}/${componentName}"/>
         </move>
-        
+
         <mkdir dir="${installDir}/logs"/>
     </target>
-  
+
     <target name="extractUpdate">
         <unzip src="${antinstaller.jar}" dest=".">
             <patternset>
                 <include name="**/*.*"/>
             </patternset>
         </unzip>
-        
+
         <delete>
             <fileset dir="${installDir}/lib" includes="**/*"/>
         </delete>
-        
+
         <move toDir="${installDir}">
             <fileset dir="./${componentName}"/>
         </move>
     </target>
-	
-	<target name="adminPort" description="Configure the admin port.">
+
+  <target name="adminPort" description="Configure the admin port.">
         <echo>Schreiben der Konfiguration
         </echo>
         <touch file="${config}"/>
@@ -86,7 +86,7 @@
             <entry key="jetty.port" value="${localServerPort}" />
         </propertyfile>
     </target>
-    
+
     <target name="startComponent">
         <echo>
 =================
@@ -109,9 +109,9 @@ Bevor das iPlug benutzt werden kann, muss es in der iBus-
 Administration (im Portal) eingeschaltet werden.
 
 Weitere Informationen entnehmen Sie bitte dem
-Online-Handbuch unter 
+Online-Handbuch unter
 http://www.kst.portalu.de/wiki/index.php/InGrid_Installation.
         </echo>
     </target>
-    
+
 </project>
