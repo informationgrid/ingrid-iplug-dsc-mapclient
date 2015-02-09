@@ -35,7 +35,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
          <context:exclude-filter type="regex" expression="de\.ingrid\.iplug\.dsc\.DscSearchPlug"/>
         <!-- STEMMER: Exclude autocreation of stemmers ! We explicitly create stemmer via xml then used in auto wiring ! -->
         <context:exclude-filter type="regex" expression="de.ingrid.admin.search.*Stemmer*" />
-        <!-- <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.record.DscRecordCreator" /> -->
+        <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.record.DscRecordCreator" />
         <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.index.DscDocumentProducer" />
     </context:component-scan>
     
@@ -68,14 +68,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="dscRecordProducer" ref="dscRecordProducer" />
     </bean> -->
     
-    <!-- <bean id="dscRecordProducer" class="de.ingrid.iplug.dsc.record.DscRecordCreator">
+    <bean id="dscRecordProducer" class="de.ingrid.iplug.dsc.record.DscRecordCreator">
         <property name="recordProducer" ref="recordProducer" />
         <property name="record2IdfMapperList">
             <list>
                 <ref bean="createWmsIdfMapper"/>
             </list>
         </property>
-    </bean> -->
+    </bean>
     
     <bean id="recordProducer" class="de.ingrid.iplug.dscmapclient.record.producer.PlugDescriptionConfiguredWmsRecordProducer">
         <property name="indexFieldID" value="idf" />
