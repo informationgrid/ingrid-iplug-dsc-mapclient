@@ -5,5 +5,5 @@
 /target
 /.classpath
 /*.log*
-index/
-newIndex/
+/index/
+/newIndex/
