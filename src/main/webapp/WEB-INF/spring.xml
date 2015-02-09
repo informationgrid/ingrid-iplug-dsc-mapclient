@@ -35,10 +35,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
          <context:exclude-filter type="regex" expression="de\.ingrid\.iplug\.dsc\.DscSearchPlug"/>
         <!-- STEMMER: Exclude autocreation of stemmers ! We explicitly create stemmer via xml then used in auto wiring ! -->
         <context:exclude-filter type="regex" expression="de.ingrid.admin.search.*Stemmer*" />
-        <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.record.DscRecordCreator" />
+        <!-- <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.record.DscRecordCreator" /> -->
+        <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.index.DscDocumentProducer" />
     </context:component-scan>
     
-    <bean id="dscDocumentProducer" class="de.ingrid.iplug.dsc.index.producer.DscWmsDocumentProducer">
+    <!-- <bean id="dscDocumentProducer" class="de.ingrid.iplug.dscmapclient.index.producer.DscWmsDocumentProducer">
         <property name="recordSetProducer" ref="recordSetProducer" />
         <property name="recordMapperList">
             <list>
@@ -46,41 +47,41 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="recordMapperIdf"/>
             </list>
         </property>
-    </bean>
+    </bean> -->
 
-    <bean id="recordSetProducer" class="de.ingrid.iplug.dsc.index.producer.PlugDescriptionConfiguredWmsRecordSetProducer">
+    <bean id="recordSetProducer" class="de.ingrid.iplug.dscmapclient.index.producer.PlugDescriptionConfiguredWmsRecordSetProducer">
         <property name="idTag" value="//capabilitiesUrl" />
     </bean>
 
-    <bean id="recordMapperLucene" class="de.ingrid.iplug.dsc.index.mapper.ScriptedWmsDocumentMapper">
+    <bean id="recordMapperLucene" class="de.ingrid.iplug.dscmapclient.index.mapper.ScriptedWmsDocumentMapper">
         <property name="mappingScript" value="classpath:mapping/wms_to_lucene.js" />
         <property name="compile" value="true" />
     </bean>
     
-    <bean id="recordMapperIdf" class="de.ingrid.iplug.dsc.index.mapper.ScriptedIdfDocumentMapper">
+    <bean id="recordMapperIdf" class="de.ingrid.iplug.dscmapclient.index.mapper.ScriptedIdfDocumentMapper">
         <property name="mappingScript" value="classpath:mapping/wms_to_idf.js" />
         <property name="compile" value="true" />
     </bean>    
 
 
-    <bean id="dscMapclientSearchPlug" class="de.ingrid.iplug.dsc.DscMapclientSearchPlug">
+    <!-- <bean id="dscMapclientSearchPlug" class="de.ingrid.iplug.dscmapclient.DscMapclientSearchPlug">
         <property name="dscRecordProducer" ref="dscRecordProducer" />
-    </bean>
+    </bean> -->
     
-    <bean id="dscRecordProducer" class="de.ingrid.iplug.dsc.record.DscRecordCreator">
+    <!-- <bean id="dscRecordProducer" class="de.ingrid.iplug.dsc.record.DscRecordCreator">
         <property name="recordProducer" ref="recordProducer" />
         <property name="record2IdfMapperList">
             <list>
                 <ref bean="createWmsIdfMapper"/>
             </list>
         </property>
-    </bean>
+    </bean> -->
     
-    <bean id="recordProducer" class="de.ingrid.iplug.dsc.record.producer.PlugDescriptionConfiguredWmsRecordProducer">
+    <bean id="recordProducer" class="de.ingrid.iplug.dscmapclient.record.producer.PlugDescriptionConfiguredWmsRecordProducer">
         <property name="indexFieldID" value="idf" />
     </bean>
     
-    <bean id="createWmsIdfMapper" class="de.ingrid.iplug.dsc.record.mapper.CreateWmsIdfMapper"/>
+    <bean id="createWmsIdfMapper" class="de.ingrid.iplug.dscmapclient.record.mapper.CreateWmsIdfMapper"/>
 
 
 </beans>

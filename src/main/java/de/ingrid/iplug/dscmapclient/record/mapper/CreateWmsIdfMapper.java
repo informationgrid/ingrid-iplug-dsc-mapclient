@@ -23,7 +23,7 @@
 /**
  * 
  */
-package de.ingrid.iplug.dsc.record.mapper;
+package de.ingrid.iplug.dscmapclient.record.mapper;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -39,6 +39,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import de.ingrid.iplug.dsc.om.SourceRecord;
+import de.ingrid.iplug.dsc.record.mapper.IIdfMapper;
 
 /**
  * This class used to create an Idf-skeleton, now it only serves to pass

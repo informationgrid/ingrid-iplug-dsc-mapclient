@@ -22,6 +22,7 @@
  */
 package de.ingrid.iplug.dsc.index;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,13 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.util.Version;
 import org.springframework.core.io.FileSystemResource;
 
-import de.ingrid.iplug.dsc.index.mapper.IRecordMapper;
-import de.ingrid.iplug.dsc.index.mapper.ScriptedIdfDocumentMapper;
-import de.ingrid.iplug.dsc.index.mapper.ScriptedWmsDocumentMapper;
-import de.ingrid.iplug.dsc.index.producer.DscWmsDocumentProducer;
-import de.ingrid.iplug.dsc.index.producer.PlugDescriptionConfiguredWmsRecordSetProducer;
+import de.ingrid.admin.search.GermanStemmer;
+import de.ingrid.iplug.dsc.om.SourceRecord;
+import de.ingrid.iplug.dscmapclient.index.mapper.IRecordMapper;
+import de.ingrid.iplug.dscmapclient.index.mapper.ScriptedIdfDocumentMapper;
+import de.ingrid.iplug.dscmapclient.index.mapper.ScriptedWmsDocumentMapper;
+import de.ingrid.iplug.dscmapclient.index.producer.DscWmsDocumentProducer;
+import de.ingrid.iplug.dscmapclient.index.producer.PlugDescriptionConfiguredWmsRecordSetProducer;
 import de.ingrid.utils.PlugDescription;
 
 public class ScriptedWmsDocumentProducerTest extends TestCase {
@@ -45,8 +48,6 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
 
 
     public void testScriptedDatabaseDocumentProducer() throws Exception {
-
-
 
         PlugDescription pd = new PlugDescription();
         pd.put("WebmapXmlConfigFile", "src/test/resources/ingrid_webmap_client_config.xml");
@@ -58,6 +59,7 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         ScriptedWmsDocumentMapper m = new ScriptedWmsDocumentMapper();
         m.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_lucene.js"));
         m.setCompile(false);
+        m.setDefaultStemmer( new GermanStemmer() );
         ScriptedIdfDocumentMapper mapper = new ScriptedIdfDocumentMapper();
         mapper.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_idf.js"));
         mapper.setCompile(false);
@@ -87,6 +89,32 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
 
         writer.optimize();
         writer.close();
+    }
+    
+    public void testMapper() throws Exception {
+
+        PlugDescription pd = new PlugDescription();
+        pd.put("WebmapXmlConfigFile", "src/test/resources/ingrid_webmap_client_config.xml");
+
+        PlugDescriptionConfiguredWmsRecordSetProducer p = new PlugDescriptionConfiguredWmsRecordSetProducer();
+        p.setIdTag("//capabilitiesUrl");
+        p.configure(pd);
+        
+        ScriptedWmsDocumentMapper mapperLucene = new ScriptedWmsDocumentMapper();
+        mapperLucene.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_lucene.js"));
+        mapperLucene.setCompile(false);
+        mapperLucene.setDefaultStemmer( new GermanStemmer() );
+        ScriptedIdfDocumentMapper mapperIdf = new ScriptedIdfDocumentMapper();
+        mapperIdf.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_idf.js"));
+        mapperIdf.setCompile(false);
+        
+        while (p.hasNext()) {
+            Document doc = new Document();
+            SourceRecord record = p.next();
+            mapperLucene.map( record, doc );
+            mapperIdf.map( record, doc );
+        }
+        
     }
     
 }

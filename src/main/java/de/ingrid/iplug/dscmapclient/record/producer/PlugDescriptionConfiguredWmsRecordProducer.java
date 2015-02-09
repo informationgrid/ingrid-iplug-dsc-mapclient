@@ -23,7 +23,7 @@
 /**
  * 
  */
-package de.ingrid.iplug.dsc.record.producer;
+package de.ingrid.iplug.dscmapclient.record.producer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,6 +33,7 @@ import org.apache.lucene.document.Field;
 import de.ingrid.iplug.dsc.index.DatabaseConnection;
 import de.ingrid.iplug.dsc.om.IClosableDataSource;
 import de.ingrid.iplug.dsc.om.SourceRecord;
+import de.ingrid.iplug.dsc.record.producer.IRecordProducer;
 import de.ingrid.utils.IConfigurable;
 import de.ingrid.utils.PlugDescription;
 

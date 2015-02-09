@@ -42,7 +42,7 @@ importPackage(Packages.de.ingrid.geo.utils.transformation);
 importPackage(Packages.de.ingrid.iplug.dsc.index.mapper);
 importPackage(Packages.org.w3c.dom);
 importPackage(Packages.de.ingrid.utils.xml);
-importPackage(Packages.de.ingrid.iplug.dsc.utils);
+importPackage(Packages.de.ingrid.iplug.dscmapclient.utils);
 
 
 if (log.isDebugEnabled()) {
