@@ -27,13 +27,12 @@ package de.ingrid.iplug.dscmapclient.record.producer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 
 import de.ingrid.iplug.dsc.index.DatabaseConnection;
 import de.ingrid.iplug.dsc.om.IClosableDataSource;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.record.producer.IRecordProducer;
+import de.ingrid.utils.ElasticDocument;
 import de.ingrid.utils.IConfigurable;
 import de.ingrid.utils.PlugDescription;
 
@@ -69,15 +68,15 @@ public class PlugDescriptionConfiguredWmsRecordProducer implements IRecordProduc
      * .document.Document)
      */
     @Override
-    public SourceRecord getRecord(Document doc, IClosableDataSource ds) {
+    public SourceRecord getRecord(ElasticDocument doc, IClosableDataSource ds) {
         if (indexFieldID == null) {
             log.error("Name of ID-Field in Lucene Doc is not set!");
             throw new IllegalArgumentException("Name of ID-Field in Lucene Doc is not set!");
         }
 
-        Field field = doc.getField(indexFieldID);
+        String field = (String) doc.get(indexFieldID);
 
-        return new SourceRecord(field.stringValue());
+        return new SourceRecord(field);
     }
 
     /*

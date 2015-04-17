@@ -37,15 +37,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
-import de.ingrid.admin.search.Stemmer;
 import de.ingrid.iplug.dsc.index.mapper.ScriptedDocumentMapper;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dsc.utils.IndexUtils;
 import de.ingrid.iplug.dscmapclient.utils.CapabilitiesUtils;
+import de.ingrid.utils.ElasticDocument;
 import de.ingrid.utils.xml.IDFNamespaceContext;
 import de.ingrid.utils.xpath.XPathUtils;
 
@@ -70,11 +68,6 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
     private ScriptEngine engine;
     private CompiledScript compiledScript;
 
-    /** The default stemmer used in IndexUtils Tool !
-     * Is AUTOWIRED in spring environment via {@link #setDefaultStemmer(Stemmer)}
-     */
-    private static Stemmer _defaultStemmer;
-
     private static final Logger log = Logger.getLogger(ScriptedDocumentMapper.class);
     private DocumentBuilderFactory dbf = null;
     DocumentBuilder docBuilder = null;
@@ -91,7 +84,7 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
 	}
 
 	@Override
-    public Document map(SourceRecord record, Document doc) throws Exception {
+    public ElasticDocument map(SourceRecord record, ElasticDocument doc) throws Exception {
         if (mappingScript == null) {
             log.error("Mapping script is not set!");
             throw new IllegalArgumentException("Mapping script is not set!");
@@ -130,7 +123,7 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
             //we put the xmlDoc(WMS doc) into the record and thereby pass it to the idf-mapper 
             record.put("WmsDoc", wmsDoc);
             
-            IndexUtils idxUtils = new IndexUtils(doc, _defaultStemmer);
+            IndexUtils idxUtils = new IndexUtils(doc);
             XPathUtils xPathUtils = new XPathUtils(new IDFNamespaceContext());
             
             Bindings bindings = engine.createBindings();
@@ -174,11 +167,4 @@ public class ScriptedWmsDocumentMapper implements IRecordMapper {
         this.compile = compile;
     }
 
-    /** Injects default stemmer via autowiring !
-     * @param defaultStemmer
-     */
-    @Autowired
-    public void setDefaultStemmer(Stemmer defaultStemmer) {
-    	_defaultStemmer = defaultStemmer;
-	}
 }

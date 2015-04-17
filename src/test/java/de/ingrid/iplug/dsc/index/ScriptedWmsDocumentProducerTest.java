@@ -22,25 +22,20 @@
  */
 package de.ingrid.iplug.dsc.index;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.util.Version;
 import org.springframework.core.io.FileSystemResource;
 
-import de.ingrid.admin.search.GermanStemmer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dscmapclient.index.mapper.IRecordMapper;
 import de.ingrid.iplug.dscmapclient.index.mapper.ScriptedIdfDocumentMapper;
 import de.ingrid.iplug.dscmapclient.index.mapper.ScriptedWmsDocumentMapper;
 import de.ingrid.iplug.dscmapclient.index.producer.DscWmsDocumentProducer;
 import de.ingrid.iplug.dscmapclient.index.producer.PlugDescriptionConfiguredWmsRecordSetProducer;
+import de.ingrid.utils.ElasticDocument;
 import de.ingrid.utils.PlugDescription;
 
 public class ScriptedWmsDocumentProducerTest extends TestCase {
@@ -59,7 +54,6 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         ScriptedWmsDocumentMapper m = new ScriptedWmsDocumentMapper();
         m.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_lucene.js"));
         m.setCompile(false);
-        m.setDefaultStemmer( new GermanStemmer() );
         ScriptedIdfDocumentMapper mapper = new ScriptedIdfDocumentMapper();
         mapper.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_idf.js"));
         mapper.setCompile(false);
@@ -71,24 +65,19 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         dp.setRecordSetProducer(p);
         dp.setRecordMapperList(mList);
         //TODO define proper directory
-        String indexDirectory = "luceneTestIndex";
-        final IndexWriter writer = new IndexWriter(indexDirectory, new StandardAnalyzer(Version.LUCENE_CURRENT), true, IndexWriter.MaxFieldLength.LIMITED);
         if (dp.hasNext()) {
             while (dp.hasNext()) {
-                Document doc = dp.next();
+                ElasticDocument doc = dp.next();
                 // NOTICE: may be null (e.g. if service not reachable) !
                 if (doc == null) {
                 	continue;
                 }
-                writer.addDocument(doc);
+                //writer.addDocument(doc);
             }
         } else {
             fail("No document produced");
         }
-        
 
-        writer.optimize();
-        writer.close();
     }
     
     public void testMapper() throws Exception {
@@ -103,13 +92,12 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         ScriptedWmsDocumentMapper mapperLucene = new ScriptedWmsDocumentMapper();
         mapperLucene.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_lucene.js"));
         mapperLucene.setCompile(false);
-        mapperLucene.setDefaultStemmer( new GermanStemmer() );
         ScriptedIdfDocumentMapper mapperIdf = new ScriptedIdfDocumentMapper();
         mapperIdf.setMappingScript(new FileSystemResource("src/main/resources/mapping/wms_to_idf.js"));
         mapperIdf.setCompile(false);
         
         while (p.hasNext()) {
-            Document doc = new Document();
+            ElasticDocument doc = new ElasticDocument();
             SourceRecord record = p.next();
             mapperLucene.map( record, doc );
             mapperIdf.map( record, doc );

@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 import com.tngtech.configbuilder.ConfigBuilder;
 
 import de.ingrid.admin.JettyStarter;
-import de.ingrid.admin.search.IngridIndexSearcher;
+import de.ingrid.admin.elasticsearch.IndexImpl;
 import de.ingrid.iplug.IPlugdescriptionFieldFilter;
 import de.ingrid.iplug.dsc.DscSearchPlug;
 import de.ingrid.iplug.dsc.record.DscRecordCreator;
@@ -57,7 +57,7 @@ public class DscMapclientSearchPlug extends DscSearchPlug {
 	public static ConfigurationDscMapClient conf;
 	
 	@Autowired
-    public DscMapclientSearchPlug(final IngridIndexSearcher indexSearcher,
+    public DscMapclientSearchPlug(final IndexImpl indexSearcher,
             IPlugdescriptionFieldFilter[] fieldFilters,
             IMetadataInjector[] injector, IPreProcessor[] preProcessors,
             IPostProcessor[] postProcessors, DscRecordCreator producer) throws IOException {

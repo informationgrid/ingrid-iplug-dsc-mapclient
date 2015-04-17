@@ -22,9 +22,8 @@
  */
 package de.ingrid.iplug.dscmapclient.index.mapper;
 
-import org.apache.lucene.document.Document;
-
 import de.ingrid.iplug.dsc.om.SourceRecord;
+import de.ingrid.utils.ElasticDocument;
 
 /**
  * Interface for all source record to lucene document mapper classes of dsc-mapclient.
@@ -47,6 +46,6 @@ public interface IRecordMapper {
 	 * @param doc the index Document to extend
 	 * @return the passed index Document <b>OR NULL if should not be indexed</b>
 	 */
-	Document map(SourceRecord record, Document doc) throws Exception;
+	ElasticDocument map(SourceRecord record, ElasticDocument doc) throws Exception;
 
 }
