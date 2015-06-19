@@ -28,16 +28,24 @@
     <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
   </properties>
   <body>
+
+    <release version="3.6.0" date="2015-06-19" description="Release 3.6.0">
+      <action type="add" dev="wemove" issue="REDMINE-6">
+        Added elastic search as new indexing method.
+      </action>
+    </release>
+
     <release version="3.5.0" date="2015-02-02" description="Release InGrid 3.5.0">
         <action type="add" dev="wemove" issue="REDMINE-524">
             Added license header to all source files for Open Source migration.
         </action>
-  </release>
-	<release version="3.4.0" date="2014-02-25" description="Release InGrid 3.4.0">
-	  <action type="fix" dev="wemove" >
-           Set index value for service type to view.
-	  </action>
-	</release>
+    </release>
+
+    <release version="3.4.0" date="2014-02-25" description="Release InGrid 3.4.0">
+      <action type="fix" dev="wemove" >
+        Set index value for service type to view.
+      </action>
+    </release>
 
     <release version="3.3.1" date="2013-10-13" description="Release InGrid 3.3.1">
       <action type="update" dev="wemove" issue="INGRID-2246">
