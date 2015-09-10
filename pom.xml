@@ -3,7 +3,7 @@
   <parent>
     <groupId>de.ingrid</groupId>
     <artifactId>ingrid-releases-pom</artifactId>
-    <version>3.6.0</version>
+    <version>3.6.0.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
@@ -51,12 +51,12 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-base-webapp</artifactId>
-      <version>3.6.1-SNAPSHOT</version>
+      <version>3.6.0.3</version>
     </dependency>
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-base-webapp</artifactId>
-      <version>3.6.1-SNAPSHOT</version>
+      <version>3.6.0.3</version>
       <classifier>res</classifier>
       <type>zip</type>
     </dependency>
@@ -212,6 +212,7 @@
         <version>1.0-m5.1</version>
         <configuration>
           <defaultOriginUrl>https://github.com/informationgrid/ingrid-iplug-dsc-mapclient</defaultOriginUrl>
+          <noDeploy>true</noDeploy>
         </configuration>
       </plugin>
     </plugins>
