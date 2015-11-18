@@ -80,9 +80,9 @@
                             <div class="input full"><form:input path="xmlFilePath" /></div>
                             <form:errors path="xmlFilePath" cssClass="error" element="div" />
                             <br />
-                            Geben Sie den Ort der webmap-client Konfigurationsdatei an. Diese wird benötigt, um die Capabilities-URLs anzufragen und zu indexieren.
+                            Geben Sie den Ort der webmap-client Konfigurationsdatei an. Diese wird benï¿½tigt, um die Capabilities-URLs anzufragen und zu indexieren.
                             
-                            <p style="color: gray;">(Zum Beispiel: /opt/portalu/ingrid-auto/ingrid-portal/apache-tomcat-5.5.26/webapps/ingrid-webmap-client/WEB-INF/classes/ingrid_webmap_client_config.xml)</p>
+                            <p style="color: gray;">(Zum Beispiel: /opt/ingrid/ingrid-portal/apache-tomcat/webapps/ingrid-webmap-client/WEB-INF/classes/ingrid_webmap_client_config.xml)</p>
                         </td>
                     </tr>
                 </table>
