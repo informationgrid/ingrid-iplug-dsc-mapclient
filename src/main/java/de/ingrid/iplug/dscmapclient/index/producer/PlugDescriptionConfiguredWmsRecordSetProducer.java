@@ -188,4 +188,12 @@ import de.ingrid.utils.PlugDescription;
 	public void setXmlFilePath(String xmlFilePath) {
 		this.xmlFilePath = xmlFilePath;
 	}
+
+    @Override
+    public void reset() {}
+
+    @Override
+    public int getDocCount() {
+        return 0;
+    }
 }

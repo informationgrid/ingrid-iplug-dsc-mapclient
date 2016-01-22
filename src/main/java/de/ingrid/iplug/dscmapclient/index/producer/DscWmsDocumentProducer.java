@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.ingrid.admin.elasticsearch.IndexInfo;
 import de.ingrid.admin.object.IDocumentProducer;
 import de.ingrid.iplug.dsc.index.producer.IRecordSetProducer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
@@ -130,5 +131,15 @@ public class DscWmsDocumentProducer implements IDocumentProducer {
 
     public void setRecordMapperList(List<IRecordMapper> recordMapperList) {
         this.recordMapperList = recordMapperList;
+    }
+
+    @Override
+    public IndexInfo getIndexInfo() {
+        return null;
+    }
+
+    @Override
+    public Integer getDocumentCount() {
+        return null;
     }
 }

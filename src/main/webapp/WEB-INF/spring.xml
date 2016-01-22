@@ -33,6 +33,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <context:component-scan base-package="de.ingrid">
          <context:exclude-filter type="regex" expression="de\.ingrid\.iplug\.dsc\.webapp\.controller\.DatabaseParameterController"/>
          <context:exclude-filter type="regex" expression="de\.ingrid\.iplug\.dsc\.DscSearchPlug"/>
+         <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.SpringConfiguration*" />
         <!-- STEMMER: Exclude autocreation of stemmers ! We explicitly create stemmer via xml then used in auto wiring ! -->
         <context:exclude-filter type="regex" expression="de.ingrid.admin.search.*Stemmer*" />
         <context:exclude-filter type="regex" expression="de.ingrid.iplug.dsc.record.DscRecordCreator" />
