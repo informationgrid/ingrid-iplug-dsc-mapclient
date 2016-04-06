@@ -41,10 +41,12 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.ingrid.admin.elasticsearch.StatusProvider;
 import de.ingrid.iplug.dsc.index.producer.IRecordSetProducer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.utils.IConfigurable;
@@ -69,6 +71,9 @@ import de.ingrid.utils.PlugDescription;
 	String idTag = "";
 	Iterator<String> recordIdIterator = null;
 	String xmlFilePath = null;
+	
+    @Autowired
+    private StatusProvider statusProvider;
 
 	final private static Log log = LogFactory
 			.getLog(PlugDescriptionConfiguredWmsRecordSetProducer.class);
@@ -141,6 +146,8 @@ import de.ingrid.utils.PlugDescription;
 			if(!recordIds.contains(nl.item(i).getTextContent()))
 			recordIds.add(nl.item(i).getTextContent());
 		}
+		
+        statusProvider.addState( "FETCH", "Found " + nl.getLength() + " records in mapclient configuration.");
 
 		recordIdIterator = recordIds.listIterator();
 
