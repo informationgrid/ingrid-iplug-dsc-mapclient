@@ -62,6 +62,11 @@
       <artifactId>ingrid-utils-geo</artifactId>
       <version>3.5.0</version>
     </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.7</version>
+    </dependency>
     <!-- The two following dependencies are needed for Jetty -->
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
