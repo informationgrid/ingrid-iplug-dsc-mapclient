@@ -75,7 +75,7 @@ import de.ingrid.utils.PlugDescription;
     @Autowired
     private StatusProvider statusProvider;
 
-	final private static Log log = LogFactory
+    final private static Log log = LogFactory
 			.getLog(PlugDescriptionConfiguredWmsRecordSetProducer.class);
 
 	public PlugDescriptionConfiguredWmsRecordSetProducer() {
@@ -202,5 +202,9 @@ import de.ingrid.utils.PlugDescription;
     @Override
     public int getDocCount() {
         return 0;
+    }
+    
+    public void setStatusProvider(StatusProvider statusProvider) {
+        this.statusProvider = statusProvider;
     }
 }
