@@ -2,7 +2,7 @@
  * **************************************************-
  * ingrid-iplug-dsc-mapclient
  * ==================================================
- * Copyright (C) 2014 - 2015 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2016 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -105,13 +105,17 @@
 	mdMetadata.addAttribute("xsi:schemaLocation", DOM.getNS("gmd")+" http://schemas.opengis.net/csw/2.0.2/profiles/apiso/1.0.0/apiso.xsd");
 
 //    var fileIdentifier = luceneDoc.get("t011_obj_serv_op_connpoint.connect_point");
-	if(version == "1.1.")
-		var fileIdentifier = XPATH.getString(wmsDoc, CapabilitiesUtils.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF);
-	else if(version == "1.3.")		
-		var fileIdentifier = XPATH.getString(wmsDoc, CapabilitiesUtils.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF);
-    if (hasValue(fileIdentifier)) {
-    	mdMetadata.addElement("gmd:fileIdentifier/gco:CharacterString").addText(fileIdentifier);
-    }
+	// DEPRECATED: The ID must be the modified capability URL to be recognized correctly when the record is requested.
+	//             When the CSW-interface fetches all the records, then the ID for the request must be the same as the ID in
+	//             the resulting document!!! Otherwise it will be marked as duplicated, if there's another doc with the same ID
+	//             in another iPlug.
+	//if(version == "1.1.")
+	//	var fileIdentifier = XPATH.getString(wmsDoc, CapabilitiesUtils.XPATH_EXP_WMS_1_1_1_OP_GET_CAPABILITIES_HREF);
+	//else if(version == "1.3.")		
+	//	var fileIdentifier = XPATH.getString(wmsDoc, CapabilitiesUtils.XPATH_EXP_WMS_1_3_0_OP_GET_CAPABILITIES_HREF);
+    //if (hasValue(fileIdentifier)) {
+    mdMetadata.addElement("gmd:fileIdentifier/gco:CharacterString").addText(sourceRecord.get("id"));
+    //}
 	
 	
 //	mdMetadata.addElement("gmd:language/gmd:LanguageCode")

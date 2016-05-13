@@ -2,7 +2,7 @@
  * **************************************************-
  * ingrid-iplug-dsc-mapclient
  * ==================================================
- * Copyright (C) 2014 - 2015 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2016 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -27,8 +27,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.FileSystemResource;
 
+import de.ingrid.admin.elasticsearch.StatusProvider;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.iplug.dscmapclient.index.mapper.IRecordMapper;
 import de.ingrid.iplug.dscmapclient.index.mapper.ScriptedIdfDocumentMapper;
@@ -40,7 +43,12 @@ import de.ingrid.utils.PlugDescription;
 
 public class ScriptedWmsDocumentProducerTest extends TestCase {
 
-
+    @Mock StatusProvider statusProvider;
+    
+    public ScriptedWmsDocumentProducerTest() {
+        super();
+        MockitoAnnotations.initMocks( this );
+    }
 
     public void testScriptedDatabaseDocumentProducer() throws Exception {
 
@@ -48,6 +56,7 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         pd.put("WebmapXmlConfigFile", "src/test/resources/ingrid_webmap_client_config.xml");
 
         PlugDescriptionConfiguredWmsRecordSetProducer p = new PlugDescriptionConfiguredWmsRecordSetProducer();
+        p.setStatusProvider( statusProvider );
         p.setIdTag("//capabilitiesUrl");
         p.configure(pd);
         
@@ -86,6 +95,7 @@ public class ScriptedWmsDocumentProducerTest extends TestCase {
         pd.put("WebmapXmlConfigFile", "src/test/resources/ingrid_webmap_client_config.xml");
 
         PlugDescriptionConfiguredWmsRecordSetProducer p = new PlugDescriptionConfiguredWmsRecordSetProducer();
+        p.setStatusProvider( statusProvider );
         p.setIdTag("//capabilitiesUrl");
         p.configure(pd);
         

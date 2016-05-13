@@ -2,7 +2,7 @@
  * **************************************************-
  * ingrid-iplug-dsc-mapclient
  * ==================================================
- * Copyright (C) 2014 - 2015 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2016 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -41,10 +41,12 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.ingrid.admin.elasticsearch.StatusProvider;
 import de.ingrid.iplug.dsc.index.producer.IRecordSetProducer;
 import de.ingrid.iplug.dsc.om.SourceRecord;
 import de.ingrid.utils.IConfigurable;
@@ -69,8 +71,11 @@ import de.ingrid.utils.PlugDescription;
 	String idTag = "";
 	Iterator<String> recordIdIterator = null;
 	String xmlFilePath = null;
+	
+    @Autowired
+    private StatusProvider statusProvider;
 
-	final private static Log log = LogFactory
+    final private static Log log = LogFactory
 			.getLog(PlugDescriptionConfiguredWmsRecordSetProducer.class);
 
 	public PlugDescriptionConfiguredWmsRecordSetProducer() {
@@ -141,6 +146,8 @@ import de.ingrid.utils.PlugDescription;
 			if(!recordIds.contains(nl.item(i).getTextContent()))
 			recordIds.add(nl.item(i).getTextContent());
 		}
+		
+        statusProvider.addState( "FETCH", "Found " + nl.getLength() + " records in mapclient configuration.");
 
 		recordIdIterator = recordIds.listIterator();
 
@@ -188,4 +195,16 @@ import de.ingrid.utils.PlugDescription;
 	public void setXmlFilePath(String xmlFilePath) {
 		this.xmlFilePath = xmlFilePath;
 	}
+
+    @Override
+    public void reset() {}
+
+    @Override
+    public int getDocCount() {
+        return 0;
+    }
+    
+    public void setStatusProvider(StatusProvider statusProvider) {
+        this.statusProvider = statusProvider;
+    }
 }

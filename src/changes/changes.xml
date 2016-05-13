@@ -25,10 +25,22 @@
 <document>
   <properties>
     <title>History Ingrid DSC (mapclient) iPlug</title>
-    <author email="miguel.ayala@wemove.com">Miguel Ayala</author>
+    <author email="joachim@wemove.com">Joachim Mueller</author>
   </properties>
   <body>
 
+    <release version="3.6.2" date="2016-05-13" description="Release 3.6.2">
+      <action type="add" dev="wemove" issue="REDMINE-34">
+        Improved status messages while indexing.
+      </action>
+      <action type="fix" dev="wemove" issue="">
+        Use modified capabilities URL as file identifier to avoid removal as duplicate in CSW interface.
+      </action>
+      <action type="fix" dev="wemove" issue="REDMINE-269">
+        Fixed redirect to welcome page for a logged in user.
+      </action>
+    </release>
+    
     <release version="3.6.1" date="2015-11-18" description="Release 3.6.1">
       <action type="update" dev="wemove" issue="REDMINE-15">
         Remove all references to PortalU.
