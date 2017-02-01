@@ -2,7 +2,7 @@
  * **************************************************-
  * ingrid-iplug-dsc-mapclient
  * ==================================================
- * Copyright (C) 2014 - 2016 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2017 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -41,9 +41,9 @@ import org.springframework.core.io.Resource;
 
 import de.ingrid.iplug.dsc.index.mapper.ScriptedDocumentMapper;
 import de.ingrid.iplug.dsc.om.SourceRecord;
-import de.ingrid.iplug.dsc.utils.IndexUtils;
 import de.ingrid.iplug.dscmapclient.utils.CapabilitiesUtils;
 import de.ingrid.utils.ElasticDocument;
+import de.ingrid.utils.index.IndexUtils;
 import de.ingrid.utils.xml.IDFNamespaceContext;
 import de.ingrid.utils.xpath.XPathUtils;
 
